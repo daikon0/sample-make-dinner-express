@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var auth = require('./routes/auth');
 var loginRouter = require('./routes/login');
 var logoutRoter = require('./routes/logout');
+var registerRouter = require('./routes/register');
 
 var app = express();
 app.use(helmet());
@@ -32,7 +33,8 @@ app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/auth', auth);
 app.use('/login', loginRouter);
-app.use('/logout', logoutRoter)
+app.use('/logout', logoutRoter);
+app.use('/register', registerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

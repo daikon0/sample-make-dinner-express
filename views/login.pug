@@ -1,6 +1,17 @@
 extends layout
 
 block content
+  form(action="/login", method="post")
+    div
+      label(for="username") ユーザー名
+      input(type="text", name="username")
+    div
+      label(for="password") パスワード
+      input(type="text", name="password")
+    button(type="submit") ログイン
+    div
+      a(href="/register") 新規登録
+    
   a(href="/auth/github") Githubでログイン
   if user
    p #{user.username} でログイン中

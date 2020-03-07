@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  form(action="/register", method="post")
+    div
+      label(for="username") ユーザー名
+      input(type="text", name="username")
+    div
+      label(for="password") パスワード
+      input(type="text", name="password")
+    button(type="submit") 登録
