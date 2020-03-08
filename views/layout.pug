@@ -4,4 +4,13 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    div
+      a(href="/") makeDinner
+    ul
+      if user
+        li
+          a(href="/logout") #{user.username} をログアウト
+      else
+        li
+          a(href="/login") ログイン
     block content

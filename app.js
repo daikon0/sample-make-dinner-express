@@ -6,6 +6,7 @@ var logger = require('morgan');
 var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
+const flash = require('express-flash-messages');
 
 var indexRouter = require('./routes/index');
 var auth = require('./routes/auth');
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'e33ba81b307c1c08', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 app.use('/', indexRouter);
 app.use('/auth', auth);

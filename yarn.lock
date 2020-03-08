@@ -449,6 +449,11 @@ expect-ct@0.1.0:
   resolved "https://registry.yarnpkg.com/expect-ct/-/expect-ct-0.1.0.tgz#52735678de18530890d8d7b95f0ac63640958094"
   integrity sha1-UnNWeN4YUwiQ2Ne5XwrGNkCVgJQ=
 
+express-flash-messages@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/express-flash-messages/-/express-flash-messages-0.1.1.tgz#4020ce5178c3bb366394de9066220bc2705bd6f2"
+  integrity sha1-QCDOUXjDuzZjlN6QZiILwnBb1vI=
+
 express-session@1.13.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.13.0.tgz#8ac3b5c0188b48382851d88207b8e7746efb4011"
@@ -954,6 +959,13 @@ passport-github2@0.1.9:
   integrity sha1-DXMNVbX59tBR26a2QPG+Why7o1w=
   dependencies:
     passport-oauth2 "1.x.x"
+
+passport-local@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/passport-local/-/passport-local-1.0.0.tgz#1fe63268c92e75606626437e3b906662c15ba6ee"
+  integrity sha1-H+YyaMkudWBmJkN+O5BmYsFbpu4=
+  dependencies:
+    passport-strategy "1.x.x"
 
 passport-oauth1@1.x.x:
   version "1.1.0"

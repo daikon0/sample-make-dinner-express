@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('../models/user');
+
 const GitHubStrategy = require('passport-github2').Strategy;
 const GITHUB_CLIENT_ID = '254445ad818738ffbe61';
 const GITHUB_CLIENT_SECRET = '76c3d081da9e284e940299788e8334a33215b6ca';
@@ -10,6 +13,10 @@ const GITHUB_CLIENT_SECRET = '76c3d081da9e284e940299788e8334a33215b6ca';
 const TwitterStrategy = require('passport-twitter').Strategy;
 const TWITTER_CONSUMER_KYE = 'D9d9ewY5daO54CJEWIC6y0cZG';
 const TWITTERCONSUMER_SECRET = 'QTufz8T2ggBCesOPU4jhQZ5SvG1zdy46Q0G4QeydUiXGR3BalJ';
+
+localAuth();
+router.post('/local', passport.authenticate('local', { successRedirect: '/',failureRedirect: '/login',failureFlash: true })
+);
 
 githubAuth();
 router.get('/github', passport.authenticate('github', { scope: ['user:email']}),
@@ -43,6 +50,26 @@ function authRedirect(req, res) {
     } else {
       res.redirect('/');
     }
+}
+
+function localAuth() {
+  handleSession();
+  passport.use(new LocalStrategy({
+    usernameField: 'username',
+    passwordField: 'password'
+  },
+  function(username, password, done) {
+    process.nextTick(() => {
+      User.findOne({ where: {username: username, password: password} }).then((user, err) => {
+        if (err) { return done(err);}
+        if (!user) {
+          return done(null, false, { message: 'usernameまたはpasswordが間違っています' });
+        }
+        return done(null, user);
+      });
+    });
+  })
+  );
 }
 
 function githubAuth() {

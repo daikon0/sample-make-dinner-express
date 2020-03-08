@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  form(action="/login", method="post")
+  form(action="/auth/local", method="post")
     div
       label(for="username") ユーザー名
       input(type="text", name="username")
