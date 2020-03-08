@@ -9,3 +9,7 @@ block content
       label(for="password") パスワード
       input(type="text", name="password")
     button(type="submit") 登録
+    - var messages = getMessages()
+    if messages.error
+      each msg in messages.error
+        .error= msg
