@@ -3,9 +3,13 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-const GitHubStrategy = require('passport-github2');
+const GitHubStrategy = require('passport-github2').Strategy;
 const GITHUB_CLIENT_ID = '254445ad818738ffbe61';
 const GITHUB_CLIENT_SECRET = '76c3d081da9e284e940299788e8334a33215b6ca';
+
+const TwitterStrategy = require('passport-twitter').Strategy;
+const TWITTER_CONSUMER_KYE = 'D9d9ewY5daO54CJEWIC6y0cZG';
+const TWITTERCONSUMER_SECRET = 'QTufz8T2ggBCesOPU4jhQZ5SvG1zdy46Q0G4QeydUiXGR3BalJ';
 
 githubAuth();
 router.get('/github', passport.authenticate('github', { scope: ['user:email']}),
@@ -16,6 +20,17 @@ router.get('/github/callback',
   (req, res) => {
     authRedirect(req, res);
 });
+
+twitterAuth();
+router.get('/twitter', passport.authenticate('twitter', { scope: ['user:email'] }),
+  (req, res) => {});
+
+router.get('/twitter/callback',
+  passport.authenticate('twitter', { failureRedirect: '/login' }),
+  (req, res) => {
+    authRedirect(req, res);
+  });
+
 
 function authRedirect(req, res) {
   var loginFrom = req.cookies.loginFrom;
@@ -42,6 +57,21 @@ function githubAuth() {
         return done(null, profile);
       });
     }
+  ));
+}
+
+function twitterAuth() {
+  handleSession();
+  passport.use(new TwitterStrategy({
+    consumerKey: TWITTER_CONSUMER_KYE,
+    consumerSecret: TWITTERCONSUMER_SECRET,
+    callbackURL: 'http://localhost:8000/auth/twitter/callback'
+  },
+  function (token, tokenSecret, profile, done) {
+    process.nextTick(function () {
+      return done(null, profile);
+    });
+  }
   ));
 }
 
