@@ -6,13 +6,16 @@ var logger = require('morgan');
 var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
-const flash = require('express-flash-messages');
+var flash = require('express-flash-messages');
 
 var indexRouter = require('./routes/index');
 var auth = require('./routes/auth');
 var loginRouter = require('./routes/login');
 var logoutRoter = require('./routes/logout');
 var registerRouter = require('./routes/register');
+
+var User = require('./models/user');
+User.sync();
 
 var app = express();
 app.use(helmet());

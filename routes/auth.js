@@ -81,7 +81,12 @@ function githubAuth() {
   },
     function (accessToken, refreshToken, profile, done) {
       process.nextTick(function () {
-        return done(null, profile);
+        User.upsert({
+          userId: profile.id,
+          username: profile.username
+        }).then(() => {
+          done(null, profile);
+        });
       });
     }
   ));
@@ -96,7 +101,12 @@ function twitterAuth() {
   },
   function (token, tokenSecret, profile, done) {
     process.nextTick(function () {
-      return done(null, profile);
+      User.upsert({
+        userId: profile.id,
+        username: profile.username
+      }).then(() => {
+        done(null, profile);
+      });
     });
   }
   ));

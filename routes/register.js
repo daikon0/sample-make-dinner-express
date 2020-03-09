@@ -22,6 +22,9 @@ router.post('/', (req, res, next) => {
     password: req.body.password
   }).then(() => {
     res.redirect('/');
+  }).catch(() => {
+    req.flash('error', 'そのusernameはすでに使われています');
+    return res.redirect('/register');
   });
 });
 
