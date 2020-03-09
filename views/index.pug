@@ -2,4 +2,8 @@ extends layout
 
 block content
   if user
-   p #{user.username} でログイン中
+    p #{user.username} でログイン中
+    div
+      a(href="/menu") 料理の一覧
+    div
+    a(href="/makedinner") 今日の献立を決める

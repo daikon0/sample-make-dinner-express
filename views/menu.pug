@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  if user
+    p #{user.username} の料理一覧
+    div
+      a(href="/new") 料理を追加する
