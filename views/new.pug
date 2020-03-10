@@ -1,3 +1,27 @@
 extends layout
 
 block content
+  form(method="post", action="/")
+    div
+      h5 料理名
+      input(type="text" name="dishName")
+    div
+      h5 参考URL
+      input(type="url" name="referenceUrl")
+    div
+      h5 ジャンル
+      label(for="japan") 和食
+      input(type="radio" name="genre" value="japan" checked=true)
+      label(for="chinese") 中華
+      input(type="radio" name="genre" value="chinese" checked=false)
+      label(for="western") 洋食
+      input(type="radio" name="genre" value="western" checked=false) 
+    div
+      h5 役割
+      label(for="mainDish") 主菜
+      input(type="radio" name="role" value="mainDish" checked=true)
+      label(for="sideDish") 副菜
+      input(type="radio" name="role" value="sideDish" checked=false)
+      label(for="soup") 汁物
+      input(type="radio" name="role" value="soup" checked=false)
+    button(type="submit") 料理を追加する
