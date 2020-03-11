@@ -16,7 +16,11 @@ var registerRouter = require('./routes/register');
 var menuRouter = require('./routes/menu');
 
 var User = require('./models/user');
-User.sync();
+var Dish = require('./models/dish');
+User.sync().then(() => {
+  Dish.belongsTo(User, {foreignKey: 'createdBy'});
+  Dish.sync();
+});
 
 var app = express();
 app.use(helmet());

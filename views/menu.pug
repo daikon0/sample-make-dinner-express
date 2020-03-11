@@ -5,3 +5,22 @@ block content
     p #{user.username} の料理一覧
     div
       a(href="/menu/new") 料理を追加する
+    - var hasDish = dishes.length > 0
+    if hasDish
+      h3 料理一覧
+      table
+        tr
+          th 料理名
+          th ジャンル
+          th 役割
+          th 参考URL
+        each dish in dishes
+          tr
+            td
+              a(href=`/dishes/${dish.dishId}`) #{dish.dishName}
+            td #{dish.dishGenre}
+            td #{dish.dishRole}
+            td #{dish.dishUrl}
+    else
+      div
+        a(href="/login") ログイン
