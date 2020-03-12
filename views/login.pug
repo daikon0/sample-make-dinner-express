@@ -11,6 +11,12 @@ block content
     button(type="submit") ログイン
     div
       a(href="/register") 新規登録
+  form(action="/auth/local", method="post")
+    div
+      input(name="username", value="guest", type="hidden")
+    div
+      input(name="password", value="guestpassword", type="hidden")
+    button(type="submit") ゲストユーザーでログイン
   div 
     a(href="/auth/github") Githubでログイン
   div

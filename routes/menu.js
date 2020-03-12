@@ -41,4 +41,8 @@ router.post('/', authenticationEnsurer, (req, res, next) => {
   });
 });
 
+router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
+  
+});
+
 module.exports = router;
