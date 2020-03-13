@@ -1,7 +1,10 @@
 extends layout
 
 block content
-  h4 #{dish.sidhName}
+  p 料理名
+  h4 #{dish.dishName}
+  p 参考URL
   p #{dish.dishUrl}
   p #{dish.updatedAt}
-  button 編集
+  div
+    a(href=`/menu/${dish.dishId}/edit`) 編集する

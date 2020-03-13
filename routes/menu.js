@@ -4,6 +4,7 @@ const router = express.Router();
 const authenticationEnsurer = require('./authenticatioon-exsurer');
 const uuid = require('uuid');
 const Dish = require('../models/dish');
+const User = require('../models/user');
 const updatedAt = new Date();
 
 router.get('/', (req, res, next) => {
@@ -42,7 +43,35 @@ router.post('/', authenticationEnsurer, (req, res, next) => {
 });
 
 router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
-  
+  Dish.findOne({
+    include: [
+      {
+        model: User,
+        attributes: ['userId', 'username']
+      }],
+    where: {
+        dishId: req.params.dishId
+    },
+    order: [['"updatedAt', 'DESC']]
+  }).then((dish) => {
+    res.render('dish', {
+      user: req.user,
+      dish: dish
+    });
+  });
+});
+
+router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
+  Dish.findOne({
+    where: {
+      dishId: req.params.dishId
+    }
+  }).then((dish) => {
+    res.render('edit', {
+      user: req.user,
+      dish: dish
+    });
+  });
 });
 
 module.exports = router;
