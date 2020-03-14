@@ -12,6 +12,10 @@ const Dishes = loader.database.define('dishes', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  dishFile: {
+    type: Sequelize.BLOB,
+    allowNull: true
+  },
   dishUrl: {
     type: Sequelize.STRING,
     allowNull: true

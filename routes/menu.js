@@ -32,6 +32,7 @@ router.post('/', authenticationEnsurer, (req, res, next) => {
   Dish.create({
     dishId: dishId,
     dishName: req.body.dishName,
+    dishFile: req.body.dishFile || null,
     dishUrl: req.body.dishUrl || '(未設定)',
     dishGenre: req.body.genre,
     dishRole: req.body.role,
