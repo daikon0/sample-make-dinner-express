@@ -8,3 +8,5 @@ block content
   p #{dish.updatedAt}
   div
     a(href=`/menu/${dish.dishId}/edit`) 編集する
+  form(method="post", action=`/menu/${dish.dishId}?delete=1`)
+    button(type="submit") 削除する

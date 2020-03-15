@@ -62,6 +62,39 @@ router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
   });
 });
 
+router.post('/:dishId', authenticationEnsurer, (req, res, next) => {
+  Dish.findOne({
+    where: {
+      dishId: req.params.dishId
+    }
+  }).then((dish) => {
+    if (parseInt(req.query.delete) === 1){
+      console.log('通ってる');
+      
+      deleteDish(req.params.dishId, () => {
+        res.redirect('/menu');
+      });
+    } else {
+      const err = new Error('不正なリクエストです');
+      err.status = 400;
+      next(err);
+    }
+  });
+});
+
+function deleteDish(dishId, done, err) {
+  Dish.findAll({
+    where: { dishId: dishId}
+  }).then((dish) => {
+    const promises = dish.map((d) => { return d.destroy(); })
+    return Promise.all(promises);
+  }).then(() => {
+    if (err) return done (err);
+    done();
+  });
+}
+
+//TODO 上記に組み込む ?edit=1 に変更
 router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
   Dish.findOne({
     where: {
