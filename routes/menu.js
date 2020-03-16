@@ -6,6 +6,8 @@ const uuid = require('uuid');
 const Dish = require('../models/dish');
 const User = require('../models/user');
 const updatedAt = new Date();
+const multer = require('multer');
+const upload = multer({ dest: './public/images/upload/' });
 
 router.get('/', (req, res, next) => {
   if (req.user) {
@@ -25,22 +27,21 @@ router.get('/new',authenticationEnsurer, (req, res, next) => {
   res.render('new', { user: req.user });
 });
 
-router.post('/', authenticationEnsurer, (req, res, next) => {
-  console.log(req.user);
+router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
   
   const dishId = uuid.v4();
-  Dish.create({
-    dishId: dishId,
-    dishName: req.body.dishName,
-    dishFile: req.body.dishFile || null,
-    dishUrl: req.body.dishUrl || '(未設定)',
-    dishGenre: req.body.genre,
-    dishRole: req.body.role,
-    createdBy: req.user.userId,
-    updatedAt
-  }).then(() => {
-    res.redirect('/menu');
-  });
+    Dish.create({
+     dishId: dishId,
+     dishName: req.body.dishName,
+     dishFile: req.file.filename || null,
+     dishUrl: req.body.dishUrl || '(未設定)',
+     dishGenre: req.body.genre,
+     dishRole: req.body.role,
+     createdBy: req.user.userId,
+      updatedAt
+    }).then(() => {
+     res.redirect('/menu');
+   });
 });
 
 router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
@@ -62,6 +63,19 @@ router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
   });
 });
 
+router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
+  Dish.findOne({
+    where: {
+      dishId: req.params.dishId
+    }
+  }).then((dish) => {
+    res.render('edit', {
+      user: req.user,
+      dish: dish
+    });
+  });
+});
+
 router.post('/:dishId', authenticationEnsurer, (req, res, next) => {
   Dish.findOne({
     where: {
@@ -69,8 +83,6 @@ router.post('/:dishId', authenticationEnsurer, (req, res, next) => {
     }
   }).then((dish) => {
     if (parseInt(req.query.delete) === 1){
-      console.log('通ってる');
-      
       deleteDish(req.params.dishId, () => {
         res.redirect('/menu');
       });
@@ -94,18 +106,6 @@ function deleteDish(dishId, done, err) {
   });
 }
 
-//TODO 上記に組み込む ?edit=1 に変更
-router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
-  Dish.findOne({
-    where: {
-      dishId: req.params.dishId
-    }
-  }).then((dish) => {
-    res.render('edit', {
-      user: req.user,
-      dish: dish
-    });
-  });
-});
+
 
 module.exports = router;

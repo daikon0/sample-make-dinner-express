@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  form(method="post", action="/menu")
+  form(method="post", action="/menu", enctype="multipart/form-data")
     div
       h5 料理名
       input(type="text" name="dishName")
