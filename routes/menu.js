@@ -28,8 +28,7 @@ router.get('/new',authenticationEnsurer, (req, res, next) => {
 });
 
 router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
-  
-  const dishId = uuid.v4();
+  let dishId = uuid.v4();
     Dish.create({
      dishId: dishId,
      dishName: req.body.dishName,
@@ -76,7 +75,7 @@ router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
   });
 });
 
-router.post('/:dishId', authenticationEnsurer, (req, res, next) => {
+router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
   Dish.findOne({
     where: {
       dishId: req.params.dishId
@@ -86,6 +85,18 @@ router.post('/:dishId', authenticationEnsurer, (req, res, next) => {
       deleteDish(req.params.dishId, () => {
         res.redirect('/menu');
       });
+    } else if(parseInt(req.query.edit) === 1) {
+      dish.update({
+        dishId: dish.dishId,
+        dishName: req.body.dishName,
+        dishFile: req.file.filename || null,
+        dishUrl: req.body.dishUrl || '(未設定)',
+        dishGenre: req.body.genre,
+        dishRole: req.body.role,
+        createdBy: req.user.userId,
+        updatedAt
+      });
+      res.redirect('/menu');
     } else {
       const err = new Error('不正なリクエストです');
       err.status = 400;

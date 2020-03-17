@@ -2,28 +2,31 @@ extends layout
 
 block content
   h3 料理の編集
-  form(method="post", action=`/menu/${dish.dishId}?edit=1`)
+  form(method="post", action=`/menu/${dish.dishId}?edit=1` enctype="multipart/form-data")
     div
       h5 料理名
       input(type="text" name="dishName" value=dish.dishName)
+    div
+      h5 画像
+      input(type="file" name="dishFile")
     div
       h5 参考URL
       input(type="url" name="dishUrl" value=dish.dishUrl)
     div
       h5 ジャンル
       label(for="japan") 和食
-      input(type="radio" name="genre" value="dish.dishGenre" checked=true)
+      input(type="radio" name="genre" value="和食" checked=true)
       label(for="chinese") 中華
-      input(type="radio" name="genre" value="dish.dishGenre" checked=false)
+      input(type="radio" name="genre" value="中華" checked=false)
       label(for="western") 洋食
-      input(type="radio" name="genre" value="dish.dishGenre" checked=false) 
+      input(type="radio" name="genre" value="洋食" checked=false) 
     div
       h5 役割
       label(for="mainDish") 主菜
-      input(type="radio" name="role" value="dish.dishRole" checked=true)
+      input(type="radio" name="role" value="主菜" checked=true)
       label(for="sideDish") 副菜
-      input(type="radio" name="role" value="dish.dishRole" checked=false)
+      input(type="radio" name="role" value="副菜" checked=false)
       label(for="soup") 汁物
-      input(type="radio" name="role" value="dish.dishRole" checked=false)
+      input(type="radio" name="role" value="汁物" checked=false)
     div
       button(type="submit") 以上の内容で編集する
