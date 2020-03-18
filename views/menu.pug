@@ -10,22 +10,18 @@ block content
       h3 料理一覧
       table
         tr
-          th 画像
           th 料理名
           th ジャンル
           th 役割
           th 参考URL
         each dish in dishes
           tr
-            td 
-              - var hasFile = dish.dishFile !== null
-              if hasFile
-                img(src="#{dish.dishFile}")
             td
               a(href=`/menu/${dish.dishId}`) #{dish.dishName}
             td #{dish.dishGenre}
             td #{dish.dishRole}
-            td #{dish.dishUrl}
+            td
+              a(href=`${dish.dishUrl}`) #{dish.dishUrl}
     else
       div
         a(href="/login") ログイン

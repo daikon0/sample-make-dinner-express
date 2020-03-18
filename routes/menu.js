@@ -75,6 +75,19 @@ router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
   });
 });
 
+router.get('/:dishId/edit/img',authenticationEnsurer, (req, res, next) => {
+  Dish.findOne({
+    where: {
+      dishId: req.params.dishId
+    }
+  }).then((dish) => {
+    res.render('editImg', {
+      user: req.user,
+      dish: dish
+    });
+  });
+});
+
 router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
   Dish.findOne({
     where: {
@@ -86,17 +99,31 @@ router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, 
         res.redirect('/menu');
       });
     } else if(parseInt(req.query.edit) === 1) {
+      console.log(req.body.dishName);
+      
       dish.update({
         dishId: dish.dishId,
         dishName: req.body.dishName,
-        dishFile: req.file.filename || null,
+        dishFile: dish.dishFile,
         dishUrl: req.body.dishUrl || '(未設定)',
-        dishGenre: req.body.genre,
-        dishRole: req.body.role,
+        dishGenre: dish.dishGenre,
+        dishRole: dish.dishRole,
         createdBy: req.user.userId,
         updatedAt
       });
       res.redirect('/menu');
+    } else if (parseInt(req.query.editImg) === 1){
+      dish.update({
+        dishId: dish.dishId,
+        dishName: dish.dishName,
+        dishFile: req.file.filename,
+        dishUrl: dish.dishUrl || '(未設定)',
+        dishGenre: dish.dishGenre,
+        dishRole: dish.dishRole,
+        createdBy: req.user.userId,
+        updatedAt
+      });
+      res.redirect(`/menu/${dish.dishId}/edit`)
     } else {
       const err = new Error('不正なリクエストです');
       err.status = 400;

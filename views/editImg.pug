@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h3 画像の変更
+  form(method="post", action=`/menu/${dish.dishId}?editImg=1` enctype="multipart/form-data")
+    div
+      h5 画像
+      input(type="file" name="dishFile")
+    div
+      button(type="submit") 画像を変更する
