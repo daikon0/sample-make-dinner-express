@@ -1,9 +1,17 @@
 extends layout
 
 block content
-  if user
-    p #{user.username} でログイン中
-    div
-      a(href="/menu") 料理の一覧
-    div
-    a(href="/makedinner") 今日の献立を決める
+  div.jumbotron.my-3
+    if user
+      h1.display-5 MakeDinner!!
+      div
+        a(href="/menu").btn.btn-info.my-3 料理の一覧
+      div
+        a(href="/makedinner").btn.btn-info.my-3 今日の献立を決める
+    else
+      h1.display-4 MakeDinner!!
+      p.lead このアプリケーションは毎日の夕飯を一緒に考えてくれます
+      div
+      a(href="/login").btn.btn-info.my-3 ログイン
+      div
+      a(href="/register").btn.btn-info.my-3 新規登録

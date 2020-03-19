@@ -2,26 +2,25 @@ extends layout
 
 block content
   if user
-    p #{user.username} の料理一覧
-    div
-      a(href="/menu/new") 料理を追加する
     - var hasDish = dishes.length > 0
     if hasDish
-      h3 料理一覧
-      table
+      h3.my-3 料理一覧
+      table.table.table-striped.table-responsive
         tr
           th 料理名
+          th 参考URL
           th ジャンル
           th 役割
-          th 参考URL
         each dish in dishes
           tr
             td
-              a(href=`/menu/${dish.dishId}`) #{dish.dishName}
+              a(href=`/menu/${dish.dishId}`).btn.btn-light #{dish.dishName}
+            td
+              a(href=`${dish.dishUrl}`).btn.btn-outline-secondary #{dish.dishName}のレシピ
             td #{dish.dishGenre}
             td #{dish.dishRole}
-            td
-              a(href=`${dish.dishUrl}`) #{dish.dishUrl}
+      div
+      a(href="/menu/new").btn.btn-info.my-3 料理を追加する
     else
       div
         a(href="/login") ログイン

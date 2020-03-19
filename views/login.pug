@@ -1,25 +1,23 @@
 extends layout
 
 block content
-  form(action="/auth/local", method="post")
-    div
+  form(action="/auth/local", method="post").form-group.my-3
+    div.form-inline
       label(for="username") ユーザー名
-      input(type="text", name="username")
-    div
+      input(type="text", name="username").form-control
+    div.form-inline
       label(for="password") パスワード
-      input(type="text", name="password")
+      input(type="text", name="password").form-control
     button(type="submit") ログイン
-    div
-      a(href="/register") 新規登録
+  div 
+    a(href="/auth/github").btn.btn-dark.my-3 Githubでログイン
+  div
+    a(href="/auth/twitter").btn.btn-info.my-3 Twitterでログイン
   form(action="/auth/local", method="post")
     div
       input(name="username", value="guest", type="hidden")
     div
       input(name="password", value="guestpassword", type="hidden")
-    button(type="submit") ゲストユーザーでログイン
-  div 
-    a(href="/auth/github") Githubでログイン
-  div
-    a(href="/auth/twitter") Twitterでログイン
+    button(type="submit").btn.btn-primary.my-3 ゲストユーザーでログイン
   if user
    p #{user.username} でログイン中
