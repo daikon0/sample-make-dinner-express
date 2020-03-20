@@ -7,7 +7,15 @@ const Dish = require('../models/dish');
 const User = require('../models/user');
 const updatedAt = new Date();
 const multer = require('multer');
-const upload = multer({ dest: './public/images/upload/' });
+const storage = multer.diskStorage({
+  destination: function(req, fiel, cb) {
+    cb(null, './public/images/upload/')
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.originalname)
+  }
+});
+const upload = multer({ storage: storage });
 const fs = require("fs");
 
 router.get('/', (req, res, next) => {
@@ -33,7 +41,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
     Dish.create({
      dishId: dishId,
      dishName: req.body.dishName,
-     dishFile: req.file.filename || null,
+     dishFile: req.file.originalname || null,
      dishUrl: req.body.dishUrl || '(未設定)',
      dishGenre: req.body.genre,
      dishRole: req.body.role,
@@ -78,11 +86,28 @@ router.get('/:dishId/:dishFile', authenticationEnsurer, (req, res, next) => {
     order: [['"updatedAt', 'DESC']]
   }).then((dish) => {
     console.log(dish.dishFile);
-    res.writeHead(200,{"Content-Type":"image/jpeg"});
+    res.writeHead(200,{"Content-Type": getType(dish.dishFile)});
     const output = fs.readFileSync(`./public/images/upload/${dish.dishFile}`)
     res.end(output);
   });
 });
+
+function getType(url){
+  const types = {
+    ".html": "text/html",
+    ".css" : "text/css",
+    ".js"  : "text/javascript",
+    ".png" : "image/png",
+    ".jpg" : "image/jpeg",
+    ".gif" : "image/gif",
+    ".svg" : "svg+xml"
+  }
+  for (const key in types) {
+    if(url.endsWith(key)){
+      return types[key];;
+    }
+  }
+}
 
 router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
   Dish.findOne({
