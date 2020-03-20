@@ -8,6 +8,7 @@ const User = require('../models/user');
 const updatedAt = new Date();
 const multer = require('multer');
 const upload = multer({ dest: './public/images/upload/' });
+const fs = require("fs");
 
 router.get('/', (req, res, next) => {
   if (req.user) {
@@ -55,10 +56,31 @@ router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
     },
     order: [['"updatedAt', 'DESC']]
   }).then((dish) => {
+    
     res.render('dish', {
       user: req.user,
       dish: dish
     });
+  });
+});
+
+router.get('/:dishId/:dishFile', authenticationEnsurer, (req, res, next) => {
+  console.log("通ってる");
+  Dish.findOne({
+    include: [
+      {
+        model: User,
+        attributes: ['userId', 'username']
+      }],
+    where: {
+        dishFile: req.params.dishFile
+    },
+    order: [['"updatedAt', 'DESC']]
+  }).then((dish) => {
+    console.log(dish.dishFile);
+    res.writeHead(200,{"Content-Type":"image/jpeg"});
+    const output = fs.readFileSync(`./public/images/upload/${dish.dishFile}`)
+    res.end(output);
   });
 });
 
