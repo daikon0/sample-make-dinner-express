@@ -19,8 +19,9 @@ block content
               a(href=`${dish.dishUrl}`).btn.btn-outline-secondary #{dish.dishName}のレシピ
             td #{dish.dishGenre}
             td #{dish.dishRole}
-      div
-      a(href="/menu/new").btn.btn-info.my-3 料理を追加する
     else
       div
-        a(href="/login") ログイン
+      a(href="/menu/new").btn.btn-info.my-3 料理を追加する
+  else
+    div
+      a(href="/login") ログイン
