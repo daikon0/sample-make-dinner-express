@@ -5,7 +5,7 @@ block content
     img(src=`/menu/${dish.dishId}/img/${dish.dishFile}`, alt="画像").card-img-top
     div.card-body
       h5.card-header #{dish.dishName}
-      p.card-text #{dish.updatedAt}
+      p.card-text.text-right #{dish.formattedUpdatedAt}
       a(href=`${dish.dishUrl}`).btn.btn-primary.stretched-link.btn-block #{dish.dishName}のレシピ
   div.btn-group
     a(href=`/menu/${dish.dishId}/edit`).btn.btn-success.my-3 編集する

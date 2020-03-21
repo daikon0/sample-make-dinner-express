@@ -17,6 +17,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 const fs = require("fs");
+const moment = require('moment-timezone');
 
 router.get('/', (req, res, next) => {
   if (req.user) {
@@ -64,6 +65,7 @@ router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
     },
     order: [['"updatedAt', 'DESC']]
   }).then((dish) => {
+    dish.formattedUpdatedAt = moment(dish.updatedAt).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
     
     res.render('dish', {
       user: req.user,
