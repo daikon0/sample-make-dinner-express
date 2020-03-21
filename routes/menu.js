@@ -72,7 +72,7 @@ router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
   });
 });
 
-router.get('/:dishId/:dishFile', authenticationEnsurer, (req, res, next) => {
+router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => {
   console.log("通ってる");
   Dish.findOne({
     include: [

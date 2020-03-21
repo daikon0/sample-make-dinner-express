@@ -1,10 +1,10 @@
 extends layout
 
 block content
-  h3 画像の変更
-  form(method="post", action=`/menu/${dish.dishId}?editImg=1` enctype="multipart/form-data")
-    div
-      h5 画像
-      input(type="file" name="dishFile")
-    div
-      button(type="submit") 画像を変更する
+  div.my-3
+    form(method="post", action=`/menu/${dish.dishId}?editImg=1` enctype="multipart/form-data")
+      div.form-group.custom-file
+        input(type="file" name="dishFile" data-Browse="選択").custom-file-input
+        label.custom-file-label 画像の選択
+      div.my-3
+        button(type="submit").btn.btn-info 画像を変更する

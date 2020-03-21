@@ -1,30 +1,37 @@
 extends layout
 
 block content
-  form(method="post", action="/menu", enctype="multipart/form-data")
-    div
-      h5 料理名
-      input(type="text" name="dishName")
-    div
-      h5 画像
-      input(type="file" name="dishFile")
-    div
-      h5 参考URL
-      input(type="url" name="dishUrl")
-    div
-      h5 ジャンル
-      label(for="japan") 和食
-      input(type="radio" name="genre" value="和食" checked=true)
-      label(for="chinese") 中華
-      input(type="radio" name="genre" value="中華" checked=false)
-      label(for="western") 洋食
-      input(type="radio" name="genre" value="洋食" checked=false) 
-    div
-      h5 役割
-      label(for="mainDish") 主菜
-      input(type="radio" name="role" value="主菜" checked=true)
-      label(for="sideDish") 副菜
-      input(type="radio" name="role" value="副菜" checked=false)
-      label(for="soup") 汁物
-      input(type="radio" name="role" value="汁物" checked=false)
-    button(type="submit") 料理を追加する
+  div.my-3
+    form(method="post", action="/menu", enctype="multipart/form-data")
+      div.form-group.my-3
+        label 料理名
+        input(type="text" name="dishName").form-control
+      div.form-group.my-3
+        label 参考URL
+        input(type="url" name="dishUrl").form-control
+      div.form-group.custom-file.my-3
+        input(type="file" name="dishFile").custom-file-input
+        label.custom-file-label 画像を選択してください(ドロップ可)
+      div.form-group
+        h5.my-3 ジャンル
+        div.form-check
+          input(type="radio" name="genre" value="和食" checked=true).form-check-input
+          label(for="japan").form-check-label 和食
+        div.form-check
+          input(type="radio" name="genre" value="中華" checked=false).form-check-input
+          label(for="chinese").form-check-label 中華
+        div.form-check
+          input(type="radio" name="genre" value="洋食" checked=false).form-check-input
+          label(for="western").form-check-label 洋食
+      div.form-group
+        h5.my-3 役割
+        div.form-check
+          input(type="radio" name="role" value="主菜" checked=true).form-check-input
+          label(for="mainDish").form-check-label 主菜
+        div.form-check
+          input(type="radio" name="role" value="副菜" checked=false).form-check-input
+          label(for="sideDish").form-check-label 副菜
+        div.form-check
+          input(type="radio" name="role" value="汁物" checked=false).form-check-input
+          label(for="soup").form-check-label 汁物
+      button(type="submit").btn.btn-info 料理を追加する

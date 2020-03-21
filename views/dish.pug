@@ -1,12 +1,13 @@
 extends layout
 
 block content
-  img(src=`/menu/${dish.dishId}/${dish.dishFile}`, alt="画像").img-fluid
-  h4.my-3 #{dish.dishName}
-  p 参考URL
-  p #{dish.dishUrl}
-  p #{dish.updatedAt}
-  div
-    a(href=`/menu/${dish.dishId}/edit`) 編集する
-  form(method="post", action=`/menu/${dish.dishId}?delete=1`)
-    button(type="submit") 削除する
+  div.card.bg-light
+    img(src=`/menu/${dish.dishId}/img/${dish.dishFile}`, alt="画像").card-img-top
+    div.card-body
+      h5.card-header #{dish.dishName}
+      p.card-text #{dish.updatedAt}
+      a(href=`${dish.dishUrl}`).btn.btn-primary.stretched-link.btn-block #{dish.dishName}のレシピ
+  div.btn-group
+    a(href=`/menu/${dish.dishId}/edit`).btn.btn-success.my-3 編集する
+    form(method="post", action=`/menu/${dish.dishId}?delete=1`)
+      button(type="submit").btn.btn-danger.my-3 削除する

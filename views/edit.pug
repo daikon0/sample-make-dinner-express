@@ -1,15 +1,15 @@
 extends layout
 
 block content
-  h3 料理の編集
-  form(method="post", action=`/menu/${dish.dishId}?edit=1`)
-    div
-      h5 料理名
-      input(type="text" name="dishName")
-    div
-      h5 参考URL
-      input(type="url" name="dishUrl")
-    div
-      button(type="submit") 以上の内容で編集する
-  div
-    a(href=`/menu/${dish.dishId}/edit/img`) 画像を変える
+  h3.my-3 料理の編集
+  div.container
+    form(method="post", action=`/menu/${dish.dishId}?edit=1`)
+      div.form-group
+        label 料理名
+        input(type="text" name="dishName" value=`${dish.dishName}`).form-control
+      div.form-group
+        label 参考URL
+        input(type="url" name="dishUrl" value=`${dish.dishUrl}`).form-control
+      button(type="submit").btn.btn-primary 以上の内容で編集する
+      div
+        a(href=`/menu/${dish.dishId}/edit/img`).btn.btn-info.my-3 画像を変える
