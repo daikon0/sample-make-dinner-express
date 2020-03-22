@@ -14,6 +14,7 @@ var loginRouter = require('./routes/login');
 var logoutRoter = require('./routes/logout');
 var registerRouter = require('./routes/register');
 var menuRouter = require('./routes/menu');
+var selectGenreRouter = require('./routes/selectGenre');
 
 var User = require('./models/user');
 var Dish = require('./models/dish');
@@ -46,6 +47,7 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRoter);
 app.use('/register', registerRouter);
 app.use('/menu', menuRouter);
+app.use('/selectGenre', selectGenreRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

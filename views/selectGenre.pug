@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  div
+    h4 ジャンルを選択してください
+    form(method="post", action=`/selectGenre/?japan=1`)
+      button(type="submit").btn.btn-danger.my-3 和食
+    form(method="post", action=`/?genre=western`)
+      button(type="submit").btn.btn-danger.my-3 洋食
+    form(method="post", action=`/?genre=china`)
+      button(type="submit").btn.btn-danger.my-3 中華
+    form(method="post", action=`/?genre=randam`)
+      button(type="submit").btn.btn-danger.my-3 おまかせにする
