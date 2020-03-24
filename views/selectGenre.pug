@@ -1,13 +1,18 @@
 extends layout
 
 block content
+  - var messages = getMessages()
+  if messages.error
+      div.alert.alert-danger
+        each msg in messages.error
+          .error= msg
   div
     h4 ジャンルを選択してください
     form(method="post", action=`/selectGenre/?japan=1`)
       button(type="submit").btn.btn-danger.my-3 和食
-    form(method="post", action=`/?genre=western`)
+    form(method="post", action=`/selectGenre/?western=1`)
       button(type="submit").btn.btn-danger.my-3 洋食
-    form(method="post", action=`/?genre=china`)
+    form(method="post", action=`/selectGenre/?china=1`)
       button(type="submit").btn.btn-danger.my-3 中華
-    form(method="post", action=`/?genre=randam`)
+    form(method="post", action=`/selectGenre/?random=1`)
       button(type="submit").btn.btn-danger.my-3 おまかせにする
