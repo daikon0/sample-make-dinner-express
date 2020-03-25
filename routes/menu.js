@@ -18,6 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const fs = require("fs");
 const moment = require('moment-timezone');
+const sharp = require('sharp');
 
 router.get('/', (req, res, next) => {
   if (req.user) {
@@ -38,6 +39,14 @@ router.get('/new',authenticationEnsurer, (req, res, next) => {
 });
 
 router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
+  sharp(req.file.originalname)
+    .resize(null, 350)
+    .toFile("resizxe" + req.file.originalname, (err, info) => {
+      if(err) {
+        console.log(err);
+      }
+      console.log(info);
+    
   let dishId = uuid.v4();
     Dish.create({
      dishId: dishId,
@@ -51,6 +60,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
     }).then(() => {
      res.redirect('/menu');
    });
+});
 });
 
 router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
@@ -75,7 +85,6 @@ router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
 });
 
 router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => {
-  console.log("通ってる");
   Dish.findOne({
     include: [
       {
