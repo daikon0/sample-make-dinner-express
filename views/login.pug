@@ -10,14 +10,15 @@ block content
       input(type="text", name="password").form-control
     button(type="submit") ログイン
   div 
-    a(href="/auth/github").btn.btn-dark.my-3 Githubでログイン
+    a(href="/auth/github").btn.btn-dark.my-3.fab.fa-github Githubでログイン
+      
   div
-    a(href="/auth/twitter").btn.btn-info.my-3 Twitterでログイン
+    a(href="/auth/twitter").btn.btn-info.my-3.fab.fa-twitter Twitterでログイン
   form(action="/auth/local", method="post")
     div
       input(name="username", value="guest", type="hidden")
     div
       input(name="password", value="guestpassword", type="hidden")
-    button(type="submit").btn.btn-primary.my-3 ゲストユーザーでログイン
+    button(type="submit").btn.btn-primary.my-3.fas.fa-user ゲストユーザーでログイン
   if user
    p #{user.username} でログイン中
