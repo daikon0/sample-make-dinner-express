@@ -59,25 +59,20 @@ router.post('/',authenticationEnsurer, (req, res, next) => {
           });
           //和食||汁物をsoupに入れる
           const soup = dishArray[Math.floor(Math.random()*dishArray.length)];
-        
+
           if (maindish === undefined || subdish === undefined || soup === undefined){
             req.flash('error', '料理をもっと作ってください！！');
             res.redirect('/selectGenre');
           } else {
-          res.render('result', {
-            maindish: maindish,
-            subdish: subdish,
-            soup: soup
-          });
-        }
         res.render('result', {
           maindish: maindish,
           subdish: subdish,
           soup: soup
         });
+      }
       });
-    }); 
-  })
+    });
+  });
   }
   
   //洋食のとき
