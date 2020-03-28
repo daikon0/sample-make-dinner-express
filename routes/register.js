@@ -13,7 +13,6 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   const passwordCheck = req.body.password.length > 0
   if (!passwordCheck) {
-    console.log('通ってる');
     req.flash('error', 'パスワードを入力してください！');
     return res.redirect('/register');
   }
