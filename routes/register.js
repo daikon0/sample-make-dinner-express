@@ -12,9 +12,14 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const passwordCheck = req.body.password.length > 0
+  const usernameCheck = req.body.username.length > 0
   if (!passwordCheck) {
     req.flash('error', 'パスワードを入力してください！');
     return res.redirect('/register');
+  }
+  if (!usernameCheck) {
+    req.flash('error', 'ユーザーネームを入力してください！');
+    return res.redirect('/register')
   }
   User.create({
     username: req.body.username,
@@ -22,7 +27,7 @@ router.post('/', (req, res, next) => {
   }).then(() => {
     res.redirect('/');
   }).catch(() => {
-    req.flash('error', 'そのusernameはすでに使われています');
+    req.flash('error', 'そのusernameはすでに使われています!');
     return res.redirect('/register');
   });
 });
