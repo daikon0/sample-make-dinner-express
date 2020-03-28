@@ -15,7 +15,20 @@ const TWITTER_CONSUMER_KYE = 'D9d9ewY5daO54CJEWIC6y0cZG';
 const TWITTERCONSUMER_SECRET = 'QTufz8T2ggBCesOPU4jhQZ5SvG1zdy46Q0G4QeydUiXGR3BalJ';
 
 localAuth();
-router.post('/local', passport.authenticate('local', { successRedirect: '/',failureRedirect: '/login',failureFlash: true })
+router.post('/local', (req, res, next) => {
+  const passwordCheck = req.body.password.length > 0
+  const usernameCheck = req.body.username.length > 0
+  if (!usernameCheck) {
+    req.flash('error', 'ユーザーネームを入力してください！');
+    return res.redirect('/login')
+  } else if (!passwordCheck) {
+    req.flash('error', 'パスワードを入力してください！');
+    return res.redirect('/login');
+  } else {
+    next();
+  }
+},
+   passport.authenticate('local', { successRedirect: '/',failureRedirect: '/login',failureFlash: true })
 );
 
 githubAuth();

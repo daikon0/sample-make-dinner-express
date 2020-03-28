@@ -1,6 +1,11 @@
 extends layout
 
 block content
+  - var messages = getMessages()
+  if messages.error
+      div.alert.alert-danger
+        each msg in messages.error
+          .error= msg
   div.card.my-3.bg-light
     div.card-header LOGIN
     div.card-body
@@ -11,7 +16,7 @@ block content
         div.form-group
           label(for="password").fas.fa-unlock
           input(type="text", name="password", placeholder="password").form-control
-    button(type="submit").btn.btn-default.my-3 ログイン
+        button(type="submit").btn.btn-default.my-3 ログイン
   div 
     a(href="/auth/github").btn.btn-dark.my-3.fab.fa-github Githubでログイン
   div
