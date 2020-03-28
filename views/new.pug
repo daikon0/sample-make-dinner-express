@@ -1,6 +1,11 @@
 extends layout
 
 block content
+  - var messages = getMessages()
+  if messages.error
+    div.alert.alert-danger
+      each msg in messages.error
+        .error= msg
   div.my-3
     form(method="post", action="/menu", enctype="multipart/form-data")
       div.form-group.my-3

@@ -18,7 +18,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const fs = require("fs");
 const moment = require('moment-timezone');
-const sharp = require('sharp');
 
 router.get('/', (req, res, next) => {
   if (req.user) {
@@ -39,28 +38,35 @@ router.get('/new',authenticationEnsurer, (req, res, next) => {
 });
 
 router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
-  sharp(req.file.originalname)
-    .resize(null, 350)
-    .toFile("resizxe" + req.file.originalname, (err, info) => {
-      if(err) {
-        console.log(err);
-      }
-      console.log(info);
-    
+  const dishNameChech = req.body.dishName.length > 0
+  const fileChech = req.body.dishFile
   let dishId = uuid.v4();
-    Dish.create({
-     dishId: dishId,
-     dishName: req.body.dishName,
-     dishFile: req.file.originalname || null,
-     dishUrl: req.body.dishUrl || '(未設定)',
-     dishGenre: req.body.genre,
-     dishRole: req.body.role,
-     createdBy: req.user.userId,
-      updatedAt
+
+  console.log(fileChech);
+  
+
+  if (!dishNameChech) {
+    req.flash('error', '料理名を入力してください！');
+    return res.redirect('/menu/new');
+  }
+
+  if (fileChech === undefined) {
+    req.flash('error', '画像を登録してください！');
+    return res.redirect('/menu/new');
+  }
+
+  Dish.create({
+   dishId: dishId,
+   dishName: req.body.dishName,
+   dishFile: req.file.originalname || null,
+   dishUrl: req.body.dishUrl || '(未設定)',
+   dishGenre: req.body.genre,
+   dishRole: req.body.role,
+   createdBy: req.user.userId,
+    updatedAt
     }).then(() => {
      res.redirect('/menu');
-   });
-});
+  });
 });
 
 router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
