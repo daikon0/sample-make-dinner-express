@@ -6,13 +6,10 @@ block content
       div.alert.alert-danger
         each msg in messages.error
           .error= msg
-  div
-    h4 ジャンルを選択してください
-    form(method="post", action=`/selectGenre/?japan=1`)
-      button(type="submit").btn.btn-danger.my-3 和食
-    form(method="post", action=`/selectGenre/?western=1`)
-      button(type="submit").btn.btn-danger.my-3 洋食
-    form(method="post", action=`/selectGenre/?china=1`)
-      button(type="submit").btn.btn-danger.my-3 中華
-    form(method="post", action=`/selectGenre/?random=1`)
-      button(type="submit").btn.btn-danger.my-3 おまかせにする
+  h4 ジャンルを選択してください
+  a(href="/selectGenre/japan")
+    img(src="images/upload/japan.jpg", alt="画像",).img-fluid
+  a(href="/selectGenre/western")
+    img(src="images/upload/western.jpg", alt="画像",).img-fluid
+  a(href="/selectGenre/china")
+    img(src="images/upload/china.jpg", alt="画像",).img-fluid
