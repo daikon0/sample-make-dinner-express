@@ -39,9 +39,8 @@ router.get('/new',authenticationEnsurer, (req, res, next) => {
 
 router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
   const dishNameChech = req.body.dishName.length > 0
-  const fileChech = req.body.dishFile
+  const fileChech = req.file
   let dishId = uuid.v4();
-
   console.log(fileChech);
   
 
@@ -163,8 +162,13 @@ router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, 
         res.redirect('/menu');
       });
     } else if(parseInt(req.query.edit) === 1) {
-      console.log(req.body.dishName);
-      
+      const dishNameChech = req.body.dishName.length > 0
+
+      if (!dishNameChech) {
+        req.flash('error', '料理名を入力してください！');
+        return res.redirect(`/menu/${dish.dishId}/edit`);
+      }
+
       dish.update({
         dishId: dish.dishId,
         dishName: req.body.dishName,

@@ -1,6 +1,11 @@
 extends layout
 
 block content
+  - var messages = getMessages()
+  if messages.error
+    div.alert.alert-danger.my-3
+      each msg in messages.error
+        .error= msg
   h3.my-3 料理の編集
   div.container
     form(method="post", action=`/menu/${dish.dishId}?edit=1`)
@@ -9,7 +14,11 @@ block content
         input(type="text" name="dishName" value=`${dish.dishName}`).form-control
       div.form-group
         label 参考URL
-        input(type="url" name="dishUrl" value=`${dish.dishUrl}`).form-control
+        - var urlChech = '(未設定)'
+        if dish.dishUrl === urlChech
+          input(type="url" name="dishUrl" value="").form-control
+        else
+          input(type="url" name="dishUrl" value=`${dish.dishUrl}`).form-control
       button(type="submit").btn.btn-primary 以上の内容で編集する
       div
         a(href=`/menu/${dish.dishId}/edit/img`).btn.btn-info.my-3 画像を変える
