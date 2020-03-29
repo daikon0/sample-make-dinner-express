@@ -12,6 +12,7 @@ block content
             th 参考URL
             th ジャンル
             th 役割
+            th 削除
           each dish in dishes
             tr
               td
@@ -24,6 +25,9 @@ block content
                   a(href=`${dish.dishUrl}`).btn.btn-outline-secondary #{dish.dishName}のレシピ
               td #{dish.dishGenre}
               td #{dish.dishRole}
+              td
+                form(method="post", action=`/menu/${dish.dishId}?delete=1`)
+                  button(type="submit").btn.btn-danger.my-3 削除
       div
       a(href="/menu/new").btn.btn-info.my-3 料理を追加する
     else

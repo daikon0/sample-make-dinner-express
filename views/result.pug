@@ -1,21 +1,25 @@
 extends layout
 
 block content
-  div.card.bg-light
-    img(src=`/menu/${maindish.dishId}/img/${maindish.dishFile}`, alt="画像").card-img-top
-    div.card-body
-      h5.card-header #{maindish.dishName}
-      p.card-text.text-right #{maindish.formattedUpdatedAt}
-      a(href=`${maindish.dishUrl}`).btn.btn-primary.stretched-link.btn-block #{maindish.dishName}のレシピ
-  div.card.bg-light
-    img(src=`/menu/${subdish.dishId}/img/${subdish.dishFile}`, alt="画像").card-img-top
-    div.card-body
-      h5.card-header #{subdish.dishName}
-      p.card-text.text-right #{subdish.formattedUpdatedAt}
-      a(href=`${subdish.dishUrl}`).btn.btn-primary.stretched-link.btn-block #{subdish.dishName}のレシピ
-  div.card.bg-light
-    img(src=`/menu/${soup.dishId}/img/${soup.dishFile}`, alt="画像").card-img-top
-    div.card-body
-      h5.card-header #{soup.dishName}
-      p.card-text.text-right #{soup.formattedUpdatedAt}
-      a(href=`${soup.dishUrl}`).btn.btn-primary.stretched-link.btn-block #{soup.dishName}のレシピ
+  div.row
+    div.card.bg-light.col
+      div.card-header
+        h5.text-center.card-text #{maindish.dishName}
+      div.card-body
+        img(src=`/menu/${maindish.dishId}/img/${maindish.dishFile}`, alt="画像").card-img
+        p.card-text.text-right #{maindish.formattedUpdatedAt}
+        a(href=`${maindish.dishUrl}`).btn.btn-primary.stretched-link.btn-block #{maindish.dishName}のレシピ
+    div.card.bg-light.col
+      div.card-header
+        h5.text-center.card-text #{subdish.dishName}
+      div.card-body
+        img(src=`/menu/${subdish.dishId}/img/${subdish.dishFile}`, alt="画像").card-img
+        p.card-text.text-right #{subdish.formattedUpdatedAt}
+        a(href=`${subdish.dishUrl}`).btn.btn-primary.stretched-link.btn-block #{subdish.dishName}のレシピ
+    div.card.bg-light.col
+      div.card-header
+        h5.text-center.card-text #{soup.dishName}
+      div.card-body
+        img(src=`/menu/${soup.dishId}/img/${soup.dishFile}`, alt="画像").card-img
+        p.card-text.text-right #{soup.formattedUpdatedAt}
+        a(href=`${soup.dishUrl}`).btn.btn-primary.stretched-link.btn-block #{soup.dishName}のレシピ
