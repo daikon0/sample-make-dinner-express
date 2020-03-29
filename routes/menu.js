@@ -50,7 +50,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
   }
 
   if (fileChech === undefined) {
-    req.flash('error', '画像を登録してください！');
+    req.flash('error', '画像を選択してください！');
     return res.redirect('/menu/new');
   }
 
@@ -181,6 +181,12 @@ router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, 
       });
       res.redirect('/menu');
     } else if (parseInt(req.query.editImg) === 1){
+      const fileChech = req.file
+
+      if (fileChech === undefined) {
+        req.flash('error', '画像を選択してください！');
+        return res.redirect(`/menu/${dish.dishId}/edit/img`);
+      }
       dish.update({
         dishId: dish.dishId,
         dishName: dish.dishName,
