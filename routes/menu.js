@@ -68,27 +68,6 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
   });
 });
 
-router.get('/:dishId', authenticationEnsurer, (req, res, next) => {
-  Dish.findOne({
-    include: [
-      {
-        model: User,
-        attributes: ['userId', 'username']
-      }],
-    where: {
-        dishId: req.params.dishId
-    },
-    order: [['"updatedAt', 'DESC']]
-  }).then((dish) => {
-    dish.formattedUpdatedAt = moment(dish.updatedAt).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
-    
-    res.render('dish', {
-      user: req.user,
-      dish: dish
-    });
-  });
-});
-
 router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => {
   Dish.findOne({
     include: [
