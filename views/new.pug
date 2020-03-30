@@ -17,26 +17,26 @@ block content
       div.form-group.custom-file.my-3
         input(type="file" name="dishFile").custom-file-input
         label.custom-file-label 画像を選択してください(ドロップ可)
-      div.form-group
-        h5.my-3 ジャンル
-        div.form-check
-          input(type="radio" name="genre" value="和食" checked=true).form-check-input
-          label(for="japan").form-check-label 和食
-        div.form-check
-          input(type="radio" name="genre" value="中華" checked=false).form-check-input
-          label(for="chinese").form-check-label 中華
-        div.form-check
-          input(type="radio" name="genre" value="洋食" checked=false).form-check-input
-          label(for="western").form-check-label 洋食
-      div.form-group
-        h5.my-3 役割
-        div.form-check
-          input(type="radio" name="role" value="主菜" checked=true).form-check-input
-          label(for="mainDish").form-check-label 主菜
-        div.form-check
-          input(type="radio" name="role" value="副菜" checked=false).form-check-input
-          label(for="sideDish").form-check-label 副菜
-        div.form-check
-          input(type="radio" name="role" value="汁物" checked=false).form-check-input
-          label(for="soup").form-check-label 汁物
+      div.form-group.row
+        div(data-toggle="buttons").btn-group.btn-group-toggle.col
+          label(style={width:"33%"}).active.btn.btn-outline-secondary
+            input(type="radio" name="genre" value="和食" autocomplete="off" checked)
+            | 和食
+          label(style={width:"33%"}).btn.btn-outline-secondary
+            input(type="radio" name="genre" autocomplete="off" value="中華")
+            | 中華
+          label(style={width:"33%"}).btn.btn-outline-secondary
+            input(type="radio" name="genre" autocomplete="off" value="洋食")
+            | 洋食
+      div.form-group.row
+        div(data-toggle="buttons").btn-group.btn-group-toggle.col
+          label(style={width:"33%"}).active.btn.btn-outline-secondary
+            input(type="radio" name="role" value="主菜" autocomplete="off" checked)
+            | 主菜
+          label(style={width:"33%"}).btn.btn-outline-secondary
+            input(type="radio" name="role" value="副菜" autocomplete="off")
+            | 副菜
+          label(style={width:"33%"}).btn.btn-outline-secondary
+            input(type="radio" name="role" value="汁物" autocomplete="off")
+            | 汁物
       button(type="submit").btn.btn-info 料理を追加する
