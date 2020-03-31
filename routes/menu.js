@@ -7,17 +7,24 @@ const Dish = require('../models/dish');
 const User = require('../models/user');
 const updatedAt = new Date();
 const multer = require('multer');
-const storage = multer.diskStorage({
-  destination: function(req, fiel, cb) {
-    cb(null, './public/images/upload/')
-  },
-  filename: function(req, file, cb) {
-    cb(null, file.originalname)
+const s3Storage = require('multer-sharp-s3');
+const aws = require('aws-sdk');
+aws.config.update({region: 'ap-northeast-1'})
+const s3 = new aws.S3();
+
+const storage = s3Storage({
+  s3,
+  Bucket: 'sample.makediner',
+  ACL: 'public-read',
+  transform: function (req, file, cb) {
+    cb(null, sharp().resize(300, 400, {
+      fit: sharp.fit.inside,
+      withoutEnlargement: true
+    })
+    )
   }
 });
-const upload = multer({ storage: storage });
-const fs = require("fs");
-const moment = require('moment-timezone');
+const upload = multer({storage: storage});
 
 router.get('/', (req, res, next) => {
   if (req.user) {
@@ -41,8 +48,6 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
   const dishNameChech = req.body.dishName.length > 0
   const fileChech = req.file
   let dishId = uuid.v4();
-  console.log(fileChech);
-  
 
   if (!dishNameChech) {
     req.flash('error', '料理名を入力してください！');
@@ -57,7 +62,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
   Dish.create({
    dishId: dishId,
    dishName: req.body.dishName,
-   dishFile: req.file.originalname || null,
+   dishFile: req.file.Location || null,
    dishUrl: req.body.dishUrl || '(未設定)',
    dishGenre: req.body.genre,
    dishRole: req.body.role,
@@ -67,6 +72,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
      res.redirect('/menu');
   });
 });
+
 
 router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => {
   Dish.findOne({
@@ -80,29 +86,11 @@ router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => 
     },
     order: [['"updatedAt', 'DESC']]
   }).then((dish) => {
-    console.log(dish.dishFile);
-    res.writeHead(200,{"Content-Type": getType(dish.dishFile)});
-    const output = fs.readFileSync(`./public/images/upload/${dish.dishFile}`)
-    res.end(output);
+    res.render('menu', {
+      dish
+    })
   });
 });
-
-function getType(url){
-  const types = {
-    ".html": "text/html",
-    ".css" : "text/css",
-    ".js"  : "text/javascript",
-    ".png" : "image/png",
-    ".jpg" : "image/jpeg",
-    ".gif" : "image/gif",
-    ".svg" : "svg+xml"
-  }
-  for (const key in types) {
-    if(url.endsWith(key)){
-      return types[key];;
-    }
-  }
-}
 
 router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
   Dish.findOne({
@@ -169,7 +157,7 @@ router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, 
       dish.update({
         dishId: dish.dishId,
         dishName: dish.dishName,
-        dishFile: req.file.filename,
+        dishFile: req.file.Location,
         dishUrl: dish.dishUrl || '(未設定)',
         dishGenre: dish.dishGenre,
         dishRole: dish.dishRole,
