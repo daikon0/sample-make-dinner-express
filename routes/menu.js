@@ -52,22 +52,32 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
   }
 
   if (fileChech === undefined) {
-    req.flash('error', '画像を選択してください！');
-    return res.redirect('/menu/new');
+    Dish.create({
+     dishId: dishId,
+     dishName: req.body.dishName,
+     dishFile: null,
+     dishUrl: req.body.dishUrl || '(未設定)',
+     dishGenre: req.body.genre,
+     dishRole: req.body.role,
+     createdBy: req.user.userId,
+      updatedAt
+      }).then(() => {
+       return res.redirect('/menu');
+    });
+  } else {
+    Dish.create({
+     dishId: dishId,
+     dishName: req.body.dishName,
+     dishFile: req.file.Location || null,
+     dishUrl: req.body.dishUrl || '(未設定)',
+     dishGenre: req.body.genre,
+     dishRole: req.body.role,
+     createdBy: req.user.userId,
+      updatedAt
+      }).then(() => {
+       res.redirect('/menu');
+    });
   }
-
-  Dish.create({
-   dishId: dishId,
-   dishName: req.body.dishName,
-   dishFile: req.file.Location || null,
-   dishUrl: req.body.dishUrl || '(未設定)',
-   dishGenre: req.body.genre,
-   dishRole: req.body.role,
-   createdBy: req.user.userId,
-    updatedAt
-    }).then(() => {
-     res.redirect('/menu');
-  });
 });
 
 
