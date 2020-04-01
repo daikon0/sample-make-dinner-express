@@ -18,7 +18,7 @@ const storage = s3Storage({
   Bucket: 'sample.makediner',
   ACL: 'public-read',
   resize: {
-    height: 400
+    height: 350
   },
 });
 const upload = multer({storage: storage});
