@@ -2,7 +2,7 @@
 const request = require('supertest');
 const app = require('../app');
 const passportStub = require('passport-stub');
-const Sequelize = require('sequelize');
+const superagent = require('superagent');
 
 describe('/login', () => {
   before(() => {
