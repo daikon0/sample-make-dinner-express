@@ -71,7 +71,7 @@ describe('/menu', () => {
                 if (err) return done (err);
                 done();
               });
-            })
+            });
         });
     });
   }).timeout(20000);
