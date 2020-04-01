@@ -55,6 +55,11 @@ describe('/menu', () => {
         .expect('Location', /menu/)
         .expect(302)
         .end((err, res) => {
+          if(err) {
+            console.log('通ってる');
+            
+            return done(err);
+          }
           request(app)
             .get(/menu/)
             .expect(/テスト/)
@@ -69,10 +74,11 @@ describe('/menu', () => {
                 return Promise.all(promises);
               }).then(() => {
                 if (err) return done (err);
-                 return done();
+                return done();
               });
             });
         });
     });
   });
+
 });
