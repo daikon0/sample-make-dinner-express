@@ -74,7 +74,7 @@ describe('/menu', () => {
                 return Promise.all(promises);
               }).then(() => {
                 if (err) return done (err);
-                return done();
+                done();
               });
             });
         });
