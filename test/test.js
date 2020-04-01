@@ -75,10 +75,10 @@ describe('/menu', () => {
               }).then(() => {
                 if (err) return done (err);
                 done();
-              });
+              }).catch(done);
             });
         });
     });
   });
 
-});
+}).timeout(10000);
