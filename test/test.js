@@ -2,24 +2,17 @@
 const request = require('supertest');
 const app = require('../app');
 const passportStub = require('passport-stub');
+const Sequelize = require('sequelize');
 
 describe('/login', () => {
   before(() => {
     passportStub.install(app);
-    passportStub.login({ username: 'testuser' })
+    passportStub.login({ username: 'testuser' });
   });
 
   after(() => {
     passportStub.logout();
     passportStub.uninstall(app);
-  });
-
-  it('ログインのためのリンクが含まれる', (done) => {
-    request(app)
-      .get('/login')
-      .expect('Content-Type', 'text/html; charset=utf-8')
-      .expect(/<a href="\/auth\/github"/)
-      .expect(200, done);
   });
 
   it('ログイン時はユーザー名が表示される', (done) => {
@@ -36,6 +29,6 @@ describe('/logout', () => {
     request(app)
       .get('/logout')
       .expect('Location', '/')
-      .expect(302, done)
+      .expect(302, done);
   });
-})
+});
