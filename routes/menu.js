@@ -62,7 +62,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
      createdBy: req.user.userId,
       updatedAt
       }).then(() => {
-       return res.redirect('/menu');
+       res.redirect('/menu');
     });
   } else {
     Dish.create({
