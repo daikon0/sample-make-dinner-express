@@ -55,11 +55,6 @@ describe('/menu', () => {
         .expect('Location', /menu/)
         .expect(302)
         .end((err, res) => {
-          if(err) {
-            console.log('通ってる');
-            
-            return done(err);
-          }
           request(app)
             .get(/menu/)
             .expect(/テスト/)
@@ -75,10 +70,9 @@ describe('/menu', () => {
               }).then(() => {
                 if (err) return done (err);
                 done();
-              }).catch(done);
-            });
+              });
+            })
         });
     });
-  });
-
-}).timeout(10000);
+  }).timeout(20000);
+});
