@@ -58,7 +58,7 @@ describe('/menu', () => {
         .expect(302)
         .end((err, res) => {
           request(app)
-            .get(/menu/)
+            .get('/menu')
             .expect(/テスト/)
             .expect(/和食/)
             .expect(/主菜/)
@@ -82,7 +82,7 @@ describe('/menu', () => {
 describe('/menu/:dish.dishId?edit=1', () => {
   before(() => {
     passportStub.install(app);
-    passportStub.login({ userId: 0, username: 'testuser', password: 'testpassword'});
+    passportStub.login({ userId: 0, username: 'testuser', password: 'testpassword' });
   });
 
   after(() => {
@@ -93,7 +93,7 @@ describe('/menu/:dish.dishId?edit=1', () => {
   it('料理を更新できる', (done) => {
     User.upsert({ userId: 0, username: 'testuser', password: 'testpassword' }).then(() => {
       request(app)
-      .post(/menu/)
+      .post('/menu')
       .send({ dishName: 'テスト', dishUrl:'http://test',  genre: '和食', role: '主菜' })
       .end((err, res) => {
         Dish.findOne({
@@ -102,13 +102,50 @@ describe('/menu/:dish.dishId?edit=1', () => {
           request(app)
             .post(`/menu/${dish.dishId}?edit=1`)
             .send({ dishName: 'テスト2', dishUrl: 'http://test2' })
-            .end((err, res) => {
+            .end((err, res) => { }).then(() => {
               Dish.findOne({
                 where: { dishName: 'テスト2' }
               }).then((dish) => {
                 assert.equal(dish.dishName, 'テスト2');
                 assert.equal(dish.dishUrl, 'http://test2');
-                deleteDish(dish.dishId, done, err);
+              });
+              deleteDish(dish.dishId, done, err);
+            });
+        });
+      });
+    });
+  });
+});
+
+describe('/menu/:dish.dishId?delete=1', () => {
+  before(() => {
+    passportStub.install(app);
+    passportStub.login({ userId: 0, username: 'testuser', password: 'testpassword' });
+  });
+
+  after(() => {
+    passportStub.logout();
+    passportStub.uninstall(app);
+  });
+
+  it('料理を削除できる', (done) => {
+    User.upsert({ userId: 0, username: 'testuser', password: 'testpassword' }).then(() => {
+      request(app)
+      .post('/menu')
+      .send({ dishName: 'テスト6', dishUrl:'http://test',  genre: '和食', role: '主菜' })
+      .end((err, res) => {}).then(() => {
+        Dish.findOne({
+          where: { dishName: 'テスト6' }
+        }).then((dish) => {
+          request(app)
+            .post(`/menu/${dish.dishId}?delete=1`)
+            .end((err, res) => {
+              if (err) done(err);
+            }).then(() => {
+              Dish.findByPk(dish.dishId).then((dish) => {
+                assert.equal(!dish, true);
+              }).then(() => {
+                done();
               });
             });
         });
