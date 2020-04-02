@@ -2,7 +2,9 @@
 const request = require('supertest');
 const app = require('../app');
 const passportStub = require('passport-stub');
-const superagent = require('superagent');
+const assert = require('assert');
+
+const deleteDish = require('../routes/menu').deleteDish;
 
 const User = require('../models/user');
 const Dish = require('../models/dish');
@@ -74,5 +76,43 @@ describe('/menu', () => {
             });
         });
     });
-  }).timeout(20000);
+  });
+});
+
+describe('/menu/:dish.dishId?edit=1', () => {
+  before(() => {
+    passportStub.install(app);
+    passportStub.login({ userId: 0, username: 'testuser', password: 'testpassword'});
+  });
+
+  after(() => {
+    passportStub.logout();
+    passportStub.uninstall(app);
+  });
+
+  it('料理を更新できる', (done) => {
+    User.upsert({ userId: 0, username: 'testuser', password: 'testpassword' }).then(() => {
+      request(app)
+      .post(/menu/)
+      .send({ dishName: 'テスト', dishUrl:'http://test',  genre: '和食', role: '主菜' })
+      .end((err, res) => {
+        Dish.findOne({
+          where: { dishName: 'テスト'}
+        }).then((dish) => {     
+          request(app)
+            .post(`/menu/${dish.dishId}?edit=1`)
+            .send({ dishName: 'テスト2', dishUrl: 'http://test2' })
+            .end((err, res) => {
+              Dish.findOne({
+                where: { dishName: 'テスト2' }
+              }).then((dish) => {
+                assert.equal(dish.dishName, 'テスト2');
+                assert.equal(dish.dishUrl, 'http://test2');
+                deleteDish(dish.dishId, done, err);
+              });
+            });
+        });
+      });
+    });
+  });
 });

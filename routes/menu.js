@@ -192,6 +192,8 @@ function deleteDish(dishId, done, err) {
   });
 }
 
+router.deleteDish = deleteDish;
+
 
 
 module.exports = router;
