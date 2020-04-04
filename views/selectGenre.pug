@@ -6,15 +6,10 @@ block content
       div.alert.alert-danger
         each msg in messages.error
           .error= msg
-  h4 ジャンルを選択してください
-  div
-    div
-      div(height="350")
-        a(href="/selectGenre/japan")
-          img(width="350", src="https://s3-ap-northeast-1.amazonaws.com/sample.makediner/5f28293f340ad056fbc163b3c74425eb", alt="画像")
-      div(height="350")
-        a(href="/selectGenre/western")
-          img(width="350", src="https://s3-ap-northeast-1.amazonaws.com/sample.makediner/f0a4cdb004c0d977c2cdd567be4e0c40", alt="画像")
-      div(height="350")
-        a(href="/selectGenre/china")
-          img(width="350", src="https://s3-ap-northeast-1.amazonaws.com/sample.makediner/799fbd1c246dfb3007ca198b0cae26f0", alt="画像")
+  h4.my-3 ジャンルを選択してください!!
+  div.my-3
+    a(href="/selectGenre/japan").btn.btn-block.btn-outline-info.btn-lg 和食
+  div.my-3
+    a(href="/selectGenre/western").btn.btn-block.btn-outline-success.btn-lg 洋食
+  div.my-3
+    a(href="/selectGenre/china").btn.btn-block.btn-outline-danger.btn-lg 中華
