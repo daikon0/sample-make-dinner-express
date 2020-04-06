@@ -59,7 +59,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
      dishUrl: req.body.dishUrl || '(未設定)',
      dishGenre: req.body.genre,
      dishRole: req.body.role,
-     createdBy: req.user.userId,
+     createdBy: req.user.id,
       updatedAt
       }).then(() => {
        res.redirect('/menu');
@@ -72,7 +72,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
      dishUrl: req.body.dishUrl || '(未設定)',
      dishGenre: req.body.genre,
      dishRole: req.body.role,
-     createdBy: req.user.userId,
+     createdBy: req.user.id,
       updatedAt
       }).then(() => {
        res.redirect('/menu');
@@ -86,7 +86,7 @@ router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => 
     include: [
       {
         model: User,
-        attributes: ['userId', 'username']
+        attributes: ['id', 'username']
       }],
     where: {
         dishFile: req.params.dishFile
@@ -150,7 +150,7 @@ router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, 
         dishUrl: req.body.dishUrl || '(未設定)',
         dishGenre: dish.dishGenre,
         dishRole: dish.dishRole,
-        createdBy: req.user.userId,
+        createdBy: req.user.id,
         updatedAt
       });
       res.redirect('/menu');
@@ -168,7 +168,7 @@ router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, 
         dishUrl: dish.dishUrl || '(未設定)',
         dishGenre: dish.dishGenre,
         dishRole: dish.dishRole,
-        createdBy: req.user.userId,
+        createdBy: req.user.id,
         updatedAt
       });
       res.redirect(`/menu/${dish.dishId}/edit`)
