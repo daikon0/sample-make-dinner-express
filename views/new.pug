@@ -8,6 +8,7 @@ block content
         .error= msg
   div.my-3
     form(method="post", action="/menu", enctype="multipart/form-data")
+      input(type="hidden" name="_csrf" value!=csrfToken)
       div.form-group.my-3
         label 料理名
         input(type="text" name="dishName").form-control

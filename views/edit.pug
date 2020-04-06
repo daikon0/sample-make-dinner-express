@@ -9,6 +9,7 @@ block content
   h3.my-3 料理の編集
   div.container
     form(method="post", action=`/menu/${dish.dishId}?edit=1`)
+      input(type="hidden" name="_csrf" value!=csrfToken)
       div.form-group
         label 料理名
         input(type="text" name="dishName" value=`${dish.dishName}`).form-control
