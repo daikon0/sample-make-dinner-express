@@ -23,25 +23,32 @@ const storage = s3Storage({
 });
 const upload = multer({storage: storage});
 
-router.get('/', (req, res, next) => {
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: true });
+
+router.get('/', authenticationEnsurer, csrfProtection, (req, res, next) => {
   if (req.user) {
     Dish.findAll({
-      where: { createdBy: req.user.userId },
+      where: { createdBy: req.user.id },
       order: [['"updatedAt"', 'DESC']]
     }).then((dishes) => {
       res.render('menu', {
         user: req.user,
-        dishes
+        dishes,
+        csrfToken: req.csrfToken()
       });
     });
   }
 });
 
-router.get('/new',authenticationEnsurer, (req, res, next) => {
-  res.render('new', { user: req.user });
+router.get('/new',authenticationEnsurer, csrfProtection, (req, res, next) => {
+  res.render('new', { 
+    user: req.user,
+    csrfToken: req.csrfToken()
+   });
 });
 
-router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
+router.post('/', authenticationEnsurer, upload.single('dishFile'), csrfProtection, (req, res, next) => {
   const dishNameChech = req.body.dishName.length > 0
   const fileChech = req.file
   let dishId = uuid.v4();
@@ -59,7 +66,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
      dishUrl: req.body.dishUrl || '(未設定)',
      dishGenre: req.body.genre,
      dishRole: req.body.role,
-     createdBy: req.user.userId,
+     createdBy: req.user.id,
       updatedAt
       }).then(() => {
        res.redirect('/menu');
@@ -72,7 +79,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
      dishUrl: req.body.dishUrl || '(未設定)',
      dishGenre: req.body.genre,
      dishRole: req.body.role,
-     createdBy: req.user.userId,
+     createdBy: req.user.id,
       updatedAt
       }).then(() => {
        res.redirect('/menu');
@@ -86,7 +93,7 @@ router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => 
     include: [
       {
         model: User,
-        attributes: ['userId', 'username']
+        attributes: ['id', 'username']
       }],
     where: {
         dishFile: req.params.dishFile
@@ -150,7 +157,7 @@ router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, 
         dishUrl: req.body.dishUrl || '(未設定)',
         dishGenre: dish.dishGenre,
         dishRole: dish.dishRole,
-        createdBy: req.user.userId,
+        createdBy: req.user.id,
         updatedAt
       });
       res.redirect('/menu');
@@ -168,7 +175,7 @@ router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, 
         dishUrl: dish.dishUrl || '(未設定)',
         dishGenre: dish.dishGenre,
         dishRole: dish.dishRole,
-        createdBy: req.user.userId,
+        createdBy: req.user.id,
         updatedAt
       });
       res.redirect(`/menu/${dish.dishId}/edit`)

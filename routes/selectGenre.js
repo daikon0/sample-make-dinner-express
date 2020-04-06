@@ -17,7 +17,7 @@ router.get('/japan', authenticationEnsurer, (req, res, next) => {
   Dish.findAll({
     where: {
       dishGenre: '和食',
-      createdBy: req.user.userId,
+      createdBy: req.user.id,
       dishRole: '主菜'
     }
   }).then((dish) => {
@@ -32,7 +32,7 @@ router.get('/japan', authenticationEnsurer, (req, res, next) => {
     Dish.findAll({
       where: {
         dishGenre: '和食',
-        createdBy: req.user.userId,
+        createdBy: req.user.id,
         dishRole: '副菜'
       }
     }).then((dish) => {
@@ -46,7 +46,7 @@ router.get('/japan', authenticationEnsurer, (req, res, next) => {
       Dish.findAll({
         where: {
           dishGenre: '和食',
-          createdBy: req.user.userId,
+          createdBy: req.user.id,
           dishRole: '汁物'
         }
       }).then((dish) => {
@@ -76,7 +76,7 @@ router.get('/western', authenticationEnsurer, (req, res, next) => {
   Dish.findAll({
     where: {
       dishGenre: '洋食',
-      createdBy: req.user.userId,
+      createdBy: req.user.id,
       dishRole: '主菜'
     }
   }).then((dish) => {
@@ -91,7 +91,7 @@ router.get('/western', authenticationEnsurer, (req, res, next) => {
     Dish.findAll({
       where: {
         dishGenre: '洋食',
-        createdBy: req.user.userId,
+        createdBy: req.user.id,
         dishRole: '副菜'
       }
     }).then((dish) => {
@@ -105,7 +105,7 @@ router.get('/western', authenticationEnsurer, (req, res, next) => {
       Dish.findAll({
         where: {
           dishGenre: '洋食',
-          createdBy: req.user.userId,
+          createdBy: req.user.id,
           dishRole: '汁物'
         }
       }).then((dish) => {
@@ -135,7 +135,7 @@ router.get('/china', authenticationEnsurer, (req, res, next) => {
   Dish.findAll({
     where: {
       dishGenre: '中華',
-      createdBy: req.user.userId,
+      createdBy: req.user.id,
       dishRole: '主菜'
     }
   }).then((dish) => {
@@ -150,7 +150,7 @@ router.get('/china', authenticationEnsurer, (req, res, next) => {
     Dish.findAll({
       where: {
         dishGenre: '中華',
-        createdBy: req.user.userId,
+        createdBy: req.user.id,
         dishRole: '副菜'
       }
     }).then((dish) => {
@@ -164,7 +164,7 @@ router.get('/china', authenticationEnsurer, (req, res, next) => {
       Dish.findAll({
         where: {
           dishGenre: '中華',
-          createdBy: req.user.userId,
+          createdBy: req.user.id,
           dishRole: '汁物'
         }
       }).then((dish) => {

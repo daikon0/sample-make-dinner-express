@@ -95,7 +95,7 @@ function githubAuth() {
     function (accessToken, refreshToken, profile, done) {
       process.nextTick(function () {
         User.upsert({
-          userId: profile.id,
+          id: profile.id,
           username: profile.username
         }).then(() => {
           done(null, profile);
@@ -115,7 +115,7 @@ function twitterAuth() {
   function (token, tokenSecret, profile, done) {
     process.nextTick(function () {
       User.upsert({
-        userId: profile.id,
+        id: profile.id,
         username: profile.username
       }).then(() => {
         done(null, profile);

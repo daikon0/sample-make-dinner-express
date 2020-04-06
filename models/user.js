@@ -3,7 +3,7 @@ const loader = require('./sequelize-loader');
 const Sequelize = loader.Sequelize;
 
 const User = loader.database.define('users', {
-  userId: {
+  id: {
     type: Sequelize.BIGINT,
     primaryKey: true,
     allowNull: true,

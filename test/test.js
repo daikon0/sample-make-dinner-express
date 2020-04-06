@@ -41,7 +41,7 @@ describe('/logout', () => {
 describe('/menu', () => {
   before(() => {
     passportStub.install(app);
-    passportStub.login({ userId: 0, username: 'testuser', password: 'testpassword' });
+    passportStub.login({ id: 0, username: 'testuser', password: 'testpassword' });
   });
 
   after(() => {
@@ -50,7 +50,7 @@ describe('/menu', () => {
   });
 
   it('料理が作成でき表示される', (done) => {
-    User.upsert({ userId: 0, username: 'testuser', password: 'testpassword' }).then(() => {
+    User.upsert({ id: 0, username: 'testuser', password: 'testpassword' }).then(() => {
       request(app)
         .post('/menu')
         .send({ dishName: 'テスト', genre: '和食', role: '主菜'})
@@ -82,7 +82,7 @@ describe('/menu', () => {
 describe('/menu/:dish.dishId?edit=1', () => {
   before(() => {
     passportStub.install(app);
-    passportStub.login({ userId: 0, username: 'testuser', password: 'testpassword' });
+    passportStub.login({ id: 0, username: 'testuser', password: 'testpassword' });
   });
 
   after(() => {
@@ -91,7 +91,7 @@ describe('/menu/:dish.dishId?edit=1', () => {
   });
 
   it('料理を更新できる', (done) => {
-    User.upsert({ userId: 0, username: 'testuser', password: 'testpassword' }).then(() => {
+    User.upsert({ id: 0, username: 'testuser', password: 'testpassword' }).then(() => {
       request(app)
       .post('/menu')
       .send({ dishName: 'テスト', dishUrl:'http://test',  genre: '和食', role: '主菜' })
@@ -120,7 +120,7 @@ describe('/menu/:dish.dishId?edit=1', () => {
 describe('/menu/:dish.dishId?delete=1', () => {
   before(() => {
     passportStub.install(app);
-    passportStub.login({ userId: 0, username: 'testuser', password: 'testpassword' });
+    passportStub.login({ id: 0, username: 'testuser', password: 'testpassword' });
   });
 
   after(() => {
@@ -129,7 +129,7 @@ describe('/menu/:dish.dishId?delete=1', () => {
   });
 
   it('料理を削除できる', (done) => {
-    User.upsert({ userId: 0, username: 'testuser', password: 'testpassword' }).then(() => {
+    User.upsert({ id: 0, username: 'testuser', password: 'testpassword' }).then(() => {
       request(app)
       .post('/menu')
       .send({ dishName: 'テスト6', dishUrl:'http://test',  genre: '和食', role: '主菜' })

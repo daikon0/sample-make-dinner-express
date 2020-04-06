@@ -8,6 +8,7 @@ block content
         .error= msg
   div.my-3
     form(method="post", action=`/menu/${dish.dishId}?editImg=1` enctype="multipart/form-data")
+      input(type="hidden" name="_csrf" value!=csrfToken)
       div.form-group.custom-file
         input(type="file" name="dishFile" data-Browse="選択").custom-file-input
         label.custom-file-label 画像の選択
