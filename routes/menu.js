@@ -11,7 +11,6 @@ const s3Storage = require('multer-sharp-s3');
 const aws = require('aws-sdk');
 aws.config.update({region: 'ap-northeast-1'})
 const s3 = new aws.S3();
-const sharp = require('sharp');
 
 const storage = s3Storage({
   s3,
