@@ -2,9 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const db = require('../models/index');
 
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('../models/user');
 
 const GitHubStrategy = require('passport-github2').Strategy;
 const GITHUB_CLIENT_ID = '254445ad818738ffbe61';
@@ -73,7 +73,7 @@ function localAuth() {
   },
   function(username, password, done) {
     process.nextTick(() => {
-      User.findOne({ where: {username: username, password: password} }).then((user, err) => {
+      db.user.findOne({ where: {username: username, password: password} }).then((user, err) => {
         if (err) { return done(err);}
         if (!user) {
           return done(null, false, { message: 'usernameまたはpasswordが間違っています' });
@@ -94,7 +94,7 @@ function githubAuth() {
   },
     function (accessToken, refreshToken, profile, done) {
       process.nextTick(function () {
-        User.upsert({
+        db.user.upsert({
           id: profile.id,
           username: profile.username
         }).then(() => {
@@ -114,7 +114,7 @@ function twitterAuth() {
   },
   function (token, tokenSecret, profile, done) {
     process.nextTick(function () {
-      User.upsert({
+      db.user.upsert({
         id: profile.id,
         username: profile.username
       }).then(() => {

@@ -1,8 +1,14 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
 const flash = require('express-flash-messages');
+const db = require('../models/index');
+const Crypto = require('crypto');
+function getSecureRandom() {
+  const buff = Crypto.randomBytes(8);
+  const hex = buff.toString("hex");
+  return ( parseInt(hex,16) );
+}
 
 router.use(flash());
 
@@ -21,12 +27,18 @@ router.post('/', (req, res, next) => {
     req.flash('error', 'パスワードを入力してください！');
     return res.redirect('/register');
   }
-  User.create({
+  let id = getSecureRandom();
+  console.log(id);
+  
+  db.user.create({
+    id: id,
     username: req.body.username,
     password: req.body.password
   }).then(() => {
     res.redirect('/');
-  }).catch(() => {
+  }).catch((err) => {
+    console.log(err);
+    
     req.flash('error', 'そのusernameはすでに使われています!');
     return res.redirect('/register');
   });
