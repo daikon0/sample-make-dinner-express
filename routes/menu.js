@@ -3,8 +3,7 @@ const express = require('express');
 const router = express.Router();
 const authenticationEnsurer = require('./authenticatioon-exsurer');
 const uuid = require('uuid');
-const Dish = require('../models/dish');
-const User = require('../models/user');
+const db = require('../models/index');
 const updatedAt = new Date();
 const multer = require('multer');
 const s3Storage = require('multer-sharp-s3');
@@ -27,7 +26,7 @@ const csrfProtection = csrf({ cookie: true });
 
 router.get('/', authenticationEnsurer, csrfProtection, (req, res, next) => {
   if (req.user) {
-    Dish.findAll({
+    db.dish.findAll({
       where: { createdBy: req.user.id },
       order: [['"updatedAt"', 'DESC']]
     }).then((dishes) => {
@@ -58,7 +57,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), csrfProtectio
   }
 
   if (fileChech === undefined) {
-    Dish.create({
+    db.dish.create({
      dishId: dishId,
      dishName: req.body.dishName,
      dishFile: null,
@@ -71,7 +70,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), csrfProtectio
        res.redirect('/menu');
     });
   } else {
-    Dish.create({
+    db.dish.create({
      dishId: dishId,
      dishName: req.body.dishName,
      dishFile: req.file.Location || null,
@@ -88,7 +87,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), csrfProtectio
 
 
 router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => {
-  Dish.findOne({
+  db.dish.findOne({
     include: [
       {
         model: User,
@@ -106,7 +105,7 @@ router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => 
 });
 
 router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
-  Dish.findOne({
+  db.dish.findOne({
     where: {
       dishId: req.params.dishId
     }
@@ -119,7 +118,7 @@ router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
 });
 
 router.get('/:dishId/edit/img',authenticationEnsurer, (req, res, next) => {
-  Dish.findOne({
+  db.dish.findOne({
     where: {
       dishId: req.params.dishId
     }
@@ -132,7 +131,7 @@ router.get('/:dishId/edit/img',authenticationEnsurer, (req, res, next) => {
 });
 
 router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
-  Dish.findOne({
+  db.dish.findOne({
     where: {
       dishId: req.params.dishId
     }
@@ -187,7 +186,7 @@ router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, 
 });
 
 function deleteDish(dishId, done, err) {
-  Dish.findAll({
+  db.dish.findAll({
     where: { dishId: dishId}
   }).then((dish) => {
     const promises = dish.map((d) => { return d.destroy(); })

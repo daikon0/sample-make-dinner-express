@@ -2,8 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const authenticationEnsurer = require('./authenticatioon-exsurer');
-const Dish = require('../models/dish');
 const flash = require('express-flash-messages');
+const db =require('../models/index');
 
 router.use(flash());
 
@@ -14,7 +14,7 @@ router.get('/',authenticationEnsurer, (req, res, next) => {
 });
 
 router.get('/japan', authenticationEnsurer, (req, res, next) => {
-  Dish.findAll({
+  debug.dish.findAll({
     where: {
       dishGenre: '和食',
       createdBy: req.user.id,
@@ -29,7 +29,7 @@ router.get('/japan', authenticationEnsurer, (req, res, next) => {
     const maindish = dishArray[Math.floor(Math.random() * dishArray.length)];
     
 
-    Dish.findAll({
+    db.dish.findAll({
       where: {
         dishGenre: '和食',
         createdBy: req.user.id,
@@ -43,7 +43,7 @@ router.get('/japan', authenticationEnsurer, (req, res, next) => {
       //和食||副菜をsubdishに入れる
       const subdish = dishArray[Math.floor(Math.random()*dishArray.length)];
 
-      Dish.findAll({
+      db.dish.findAll({
         where: {
           dishGenre: '和食',
           createdBy: req.user.id,
@@ -73,7 +73,7 @@ router.get('/japan', authenticationEnsurer, (req, res, next) => {
 });
 
 router.get('/western', authenticationEnsurer, (req, res, next) => {
-  Dish.findAll({
+  db.dish.findAll({
     where: {
       dishGenre: '洋食',
       createdBy: req.user.id,
@@ -88,7 +88,7 @@ router.get('/western', authenticationEnsurer, (req, res, next) => {
     const maindish = dishArray[Math.floor(Math.random()*dishArray.length)];
     
 
-    Dish.findAll({
+    db.dish.findAll({
       where: {
         dishGenre: '洋食',
         createdBy: req.user.id,
@@ -102,7 +102,7 @@ router.get('/western', authenticationEnsurer, (req, res, next) => {
       //洋食||副菜をsubdishに入れる
       const subdish = dishArray[Math.floor(Math.random()*dishArray.length)];
 
-      Dish.findAll({
+      db.dish.findAll({
         where: {
           dishGenre: '洋食',
           createdBy: req.user.id,
@@ -132,7 +132,7 @@ router.get('/western', authenticationEnsurer, (req, res, next) => {
 });
 
 router.get('/china', authenticationEnsurer, (req, res, next) => {
-  Dish.findAll({
+  db.dish.findAll({
     where: {
       dishGenre: '中華',
       createdBy: req.user.id,
@@ -147,7 +147,7 @@ router.get('/china', authenticationEnsurer, (req, res, next) => {
     const maindish = dishArray[Math.floor(Math.random()*dishArray.length)];
     
 
-    Dish.findAll({
+    db.dish.findAll({
       where: {
         dishGenre: '中華',
         createdBy: req.user.id,
@@ -161,7 +161,7 @@ router.get('/china', authenticationEnsurer, (req, res, next) => {
       //中華||副菜をsubdishに入れる
       const subdish = dishArray[Math.floor(Math.random()*dishArray.length)];
 
-      Dish.findAll({
+      db.dish.findAll({
         where: {
           dishGenre: '中華',
           createdBy: req.user.id,
