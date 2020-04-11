@@ -14,7 +14,7 @@ router.get('/',authenticationEnsurer, (req, res, next) => {
 });
 
 router.get('/japan', authenticationEnsurer, (req, res, next) => {
-  debug.dish.findAll({
+  db.dish.findAll({
     where: {
       dishGenre: '和食',
       createdBy: req.user.id,
@@ -62,9 +62,10 @@ router.get('/japan', authenticationEnsurer, (req, res, next) => {
           res.redirect('/selectGenre');
         } else {
           res.render('result', {
-          maindish: maindish,
-          subdish: subdish,
-          soup: soup
+            user: req.user,
+            maindish: maindish,
+            subdish: subdish,
+            soup: soup
       });
     }
     });
@@ -121,6 +122,7 @@ router.get('/western', authenticationEnsurer, (req, res, next) => {
         res.redirect('/selectGenre');
       } else {
       res.render('result', {
+        user: req.user,
         maindish: maindish,
         subdish: subdish,
         soup: soup
@@ -180,6 +182,7 @@ router.get('/china', authenticationEnsurer, (req, res, next) => {
         res.redirect('/selectGenre');
       } else {
       res.render('result', {
+        user: req.user,
         maindish: maindish,
         subdish: subdish,
         soup: soup
