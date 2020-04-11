@@ -5,7 +5,7 @@ const flash = require('express-flash-messages');
 const db = require('../models/index');
 const Crypto = require('crypto');
 function getSecureRandom() {
-  const buff = Crypto.randomBytes(8);
+  const buff = Crypto.randomBytes(4);
   const hex = buff.toString("hex");
   return ( parseInt(hex,16) );
 }
