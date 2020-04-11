@@ -14,7 +14,7 @@ router.get('/',authenticationEnsurer, (req, res, next) => {
 });
 
 router.get('/japan', authenticationEnsurer, (req, res, next) => {
-  debug.dish.findAll({
+  db.dish.findAll({
     where: {
       dishGenre: '和食',
       createdBy: req.user.id,
