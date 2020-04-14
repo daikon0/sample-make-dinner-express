@@ -45,3 +45,4 @@ jobs:
           path: ./junit
       - store_artifacts:
           path: ./junit
+      - run: npm test
