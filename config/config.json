@@ -2,8 +2,8 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "make_dinner",
-    "host": "127.0.0.1",
+    "database": "makedinner",
+    "host": "postgres",
     "dialect": "postgres",
     "operatorsAliases": false
   },
