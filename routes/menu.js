@@ -46,7 +46,7 @@ router.get('/new',authenticationEnsurer, csrfProtection, (req, res, next) => {
    });
 });
 
-router.post('/', authenticationEnsurer, upload.single('dishFile'), csrfProtection, (req, res, next) => {
+router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
   const dishNameChech = req.body.dishName.length > 0
   const fileChech = req.file
   let dishId = uuid.v4();
