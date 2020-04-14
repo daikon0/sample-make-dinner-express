@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: 2
 jobs:
   build:
@@ -45,3 +46,5 @@ jobs:
           path: ./junit
       - store_artifacts:
           path: ./junit
+=======
+>>>>>>> master
