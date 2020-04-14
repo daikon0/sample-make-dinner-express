@@ -1,17 +1,50 @@
-version: 2.1
-orbs:
-  node: circleci/node@1.1.6
+<<<<<<< HEAD
+version: 2
 jobs:
-  build-and-test:
-    executor:
-      name: node/default
+  build:
+
+    # すべてのコマンドを実行する場所となるプライマリコンテナイメージ
+
+    docker:
+      - image: circleci/node:10.15.3
+      - image: circleci/python:3.6.2-stretch-browsers
+        environment:
+          TEST_DATABASE_URL: postgresql://root@localhost/circle_test
+
+    # サービスコンテナイメージ
+
+      - image: circleci/postgres:9.6.5-alpine-ram
+
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
-workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: sudo apt-get update
+      - run: sudo apt-get install postgresql-client-9.6
+
+      - run: npx sequelize-cli db:create
+      - run: npx sequelize-cli db:migrate
+
+      - run: mkdir junit
+      - run:
+          command: node_modules/.bin/mocha test --reporter mocha-junit-reporter
+          environment:
+            MOCHA_FILE: ./junit/test-results.xml
+          when: always
+      - store_test_results:
+          path: ./junit
+      - store_artifacts:
+          path: ./junit
+=======
+>>>>>>> master
