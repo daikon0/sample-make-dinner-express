@@ -21,7 +21,7 @@ describe('/login', () => {
 
   it('ログイン時はユーザー名が表示される', (done) => {
     request(app)
-      .get('/login')
+      .get('/')
       .expect(/testuser/)
       .expect(200, done);
   });
