@@ -23,3 +23,7 @@ block content
         img(src=`${soup.dishFile}`, alt="画像", height="350").card-img
         p.card-text.text-right #{soup.formattedUpdatedAt}
         a(href=`${soup.dishUrl}`).btn.btn-primary.stretched-link.btn-block #{soup.dishName}のレシピ
+  div.my-3
+    a(href="/selectGenre").btn.btn-block.btn-outline-info.btn-lg やり直す
+  div.my-3
+    a(href="/").btn.btn-block.btn-outline-primary.btn-lg TOPに戻る 
