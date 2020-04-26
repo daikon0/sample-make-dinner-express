@@ -14,8 +14,6 @@ jobs:
 
       - image: circleci/postgres:9.6.5-alpine-ram
 
-    context: makedinner
-
     steps:
       - checkout
 
@@ -36,6 +34,12 @@ jobs:
 
       - run: npx sequelize-cli db:create
       - run: npx sequelize-cli db:migrate
+
+      context: makedinner
+
+      - run:
+        name: contextで設定した値を表示する
+        command: echo "${GITHUB_CLIENT_ID}"
 
       - run: mkdir junit
       - run:
