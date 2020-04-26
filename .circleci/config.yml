@@ -37,10 +37,6 @@ jobs:
       - run: npx sequelize-cli db:create
       - run: npx sequelize-cli db:migrate
 
-      - run:
-        name: contextで設定した値を表示する
-        command: echo "${GITHUB_CLIENT_ID}"
-
       - run: mkdir junit
       - run:
           command: node_modules/.bin/mocha test --reporter mocha-junit-reporter
