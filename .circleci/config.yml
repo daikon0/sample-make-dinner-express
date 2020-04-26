@@ -2,6 +2,8 @@ version: 2
 jobs:
   build:
 
+    context: makedinner
+
     # すべてのコマンドを実行する場所となるプライマリコンテナイメージ
 
     docker:
@@ -34,8 +36,6 @@ jobs:
 
       - run: npx sequelize-cli db:create
       - run: npx sequelize-cli db:migrate
-
-      context: makedinner
 
       - run:
         name: contextで設定した値を表示する
