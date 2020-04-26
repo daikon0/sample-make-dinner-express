@@ -3,16 +3,17 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const db = require('../models/index');
+require('dotenv').config();
 
 const LocalStrategy = require('passport-local').Strategy;
 
 const GitHubStrategy = require('passport-github2').Strategy;
-const GITHUB_CLIENT_ID = '254445ad818738ffbe61';
-const GITHUB_CLIENT_SECRET = '76c3d081da9e284e940299788e8334a33215b6ca';
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 const TwitterStrategy = require('passport-twitter').Strategy;
-const TWITTER_CONSUMER_KYE = 'D9d9ewY5daO54CJEWIC6y0cZG';
-const TWITTERCONSUMER_SECRET = 'QTufz8T2ggBCesOPU4jhQZ5SvG1zdy46Q0G4QeydUiXGR3BalJ';
+const TWITTER_CONSUMER_KYE = process.env.TWITTER_CONSUMER_KYE;
+const TWITTERCONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
 
 localAuth();
 router.post('/local', (req, res, next) => {
