@@ -15,6 +15,7 @@ var logoutRoter = require('./routes/logout');
 var registerRouter = require('./routes/register');
 var menuRouter = require('./routes/menu');
 var selectGenreRouter = require('./routes/selectGenre');
+var rakutenRouter = require('./routes/rakuten');
 
 var app = express();
 app.use(helmet());
@@ -41,6 +42,7 @@ app.use('/logout', logoutRoter);
 app.use('/register', registerRouter);
 app.use('/menu', menuRouter);
 app.use('/selectGenre', selectGenreRouter);
+app.use('/rakuten', rakutenRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
