@@ -24,6 +24,7 @@ const upload = multer({storage: storage});
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 
+//メニュー画面表示
 router.get('/', authenticationEnsurer, csrfProtection, (req, res, next) => {
   if (req.user) {
     db.dish.findAll({
@@ -39,6 +40,7 @@ router.get('/', authenticationEnsurer, csrfProtection, (req, res, next) => {
   }
 });
 
+//料理登録画面表示
 router.get('/new',authenticationEnsurer, csrfProtection, (req, res, next) => {
   res.render('new', { 
     user: req.user,
@@ -46,6 +48,7 @@ router.get('/new',authenticationEnsurer, csrfProtection, (req, res, next) => {
    });
 });
 
+//料理の登録処理
 router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
   const dishNameChech = req.body.dishName.length > 0
   const fileChech = req.file
@@ -85,7 +88,7 @@ router.post('/', authenticationEnsurer, upload.single('dishFile'), (req, res, ne
   }
 });
 
-
+//料理の画像を表示
 router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => {
   db.dish.findOne({
     include: [
@@ -104,6 +107,7 @@ router.get('/:dishId/img/:dishFile', authenticationEnsurer, (req, res, next) => 
   });
 });
 
+//料理の編集画面を表示
 router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
   db.dish.findOne({
     where: {
@@ -117,6 +121,7 @@ router.get('/:dishId/edit', authenticationEnsurer, (req, res, next) => {
   });
 });
 
+//料理の画像変更画面を表示
 router.get('/:dishId/edit/img',authenticationEnsurer, (req, res, next) => {
   db.dish.findOne({
     where: {
@@ -130,6 +135,7 @@ router.get('/:dishId/edit/img',authenticationEnsurer, (req, res, next) => {
   });
 });
 
+//料理の編集処理
 router.post('/:dishId', authenticationEnsurer, upload.single('dishFile'), (req, res, next) => {
   db.dish.findOne({
     where: {
@@ -198,7 +204,5 @@ function deleteDish(dishId, done, err) {
 }
 
 router.deleteDish = deleteDish;
-
-
 
 module.exports = router;
