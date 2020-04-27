@@ -1,5 +1,5 @@
-'use strict'
-import $ from 'jquery';
-const global = Function('return this;')();
+"use strict";
+import $ from "jquery";
+const global = Function("return this;")();
 global.jQuery = $;
-import bootstrap from 'bootstrap';
+import bootstrap from "bootstrap";
