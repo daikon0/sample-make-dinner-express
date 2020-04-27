@@ -14,183 +14,76 @@ router.get('/',authenticationEnsurer, (req, res, next) => {
 });
 
 router.get('/japan', authenticationEnsurer, (req, res, next) => {
-  db.dish.findAll({
-    where: {
-      dishGenre: '和食',
-      createdBy: req.user.id,
-      dishRole: '主菜'
-    }
-  }).then((dish) => {
-    const dishArray = [];
-    dish.forEach((dish) => {
-      dishArray.push(dish);
+  const maindish = selectDish(req, '和食', '主菜');
+  const subdish = selectDish(req, '和食', '副菜');
+  const soup = selectDish(req, '和食', '汁物');
+  if (maindish === undefined || subdish === undefined || soup === undefined){
+    req.flash('error', '料理をもっと作ってください！！');
+    res.redirect('/selectGenre');
+  } else {
+    res.render('result', {
+      user: req.user,
+      maindish: maindish,
+      subdish: subdish,
+      soup: soup
     });
-    //和食||主菜をmaindishに入れる
-    const maindish = dishArray[Math.floor(Math.random() * dishArray.length)];
-    
-
-    db.dish.findAll({
-      where: {
-        dishGenre: '和食',
-        createdBy: req.user.id,
-        dishRole: '副菜'
-      }
-    }).then((dish) => {
-      const dishArray = [];
-      dish.forEach((dish) => {
-        dishArray.push(dish);
-      });
-      //和食||副菜をsubdishに入れる
-      const subdish = dishArray[Math.floor(Math.random()*dishArray.length)];
-
-      db.dish.findAll({
-        where: {
-          dishGenre: '和食',
-          createdBy: req.user.id,
-          dishRole: '汁物'
-        }
-      }).then((dish) => {
-        const dishArray = [];
-        dish.forEach((dish) => {
-          dishArray.push(dish);
-        });
-        //和食||汁物をsoupに入れる
-        const soup = dishArray[Math.floor(Math.random()*dishArray.length)];
-
-        if (maindish === undefined || subdish === undefined || soup === undefined){
-          req.flash('error', '料理をもっと作ってください！！');
-          res.redirect('/selectGenre');
-        } else {
-          res.render('result', {
-            user: req.user,
-            maindish: maindish,
-            subdish: subdish,
-            soup: soup
-      });
-    }
-    });
-  });
-});
+  }
 });
 
 router.get('/western', authenticationEnsurer, (req, res, next) => {
-  db.dish.findAll({
-    where: {
-      dishGenre: '洋食',
-      createdBy: req.user.id,
-      dishRole: '主菜'
-    }
-  }).then((dish) => {
-    const dishArray = [];
-    dish.forEach((dish) => {
-      dishArray.push(dish);
-    });
-    //洋食||主菜をmaindishに入れる
-    const maindish = dishArray[Math.floor(Math.random()*dishArray.length)];
-    
+  const maindish = selectDish(req, '洋食', '主菜')
+  const subdish = selectDish(req, '洋食', '副菜')
+  const soup =selectDish(req, '洋食', '汁物')
 
-    db.dish.findAll({
-      where: {
-        dishGenre: '洋食',
-        createdBy: req.user.id,
-        dishRole: '副菜'
-      }
-    }).then((dish) => {
-      const dishArray = [];
-      dish.forEach((dish) => {
-        dishArray.push(dish);
-      });
-      //洋食||副菜をsubdishに入れる
-      const subdish = dishArray[Math.floor(Math.random()*dishArray.length)];
-
-      db.dish.findAll({
-        where: {
-          dishGenre: '洋食',
-          createdBy: req.user.id,
-          dishRole: '汁物'
-        }
-      }).then((dish) => {
-        const dishArray = [];
-        dish.forEach((dish) => {
-          dishArray.push(dish);
-        });
-        //洋食||汁物をsoupに入れる
-        const soup = dishArray[Math.floor(Math.random()*dishArray.length)];
-        
-      if (maindish === undefined || subdish === undefined || soup === undefined){
-        req.flash('error', '料理をもっと作ってください！！');
-        res.redirect('/selectGenre');
-      } else {
-      res.render('result', {
-        user: req.user,
-        maindish: maindish,
-        subdish: subdish,
-        soup: soup
-      });
-    }
+  if (maindish === undefined || subdish === undefined || soup === undefined){
+    req.flash('error', '料理をもっと作ってください！！');
+    res.redirect('/selectGenre');
+  } else {
+    res.render('result', {
+      user: req.user,
+      maindish: maindish,
+      subdish: subdish,
+      soup: soup
     });
-  }); 
-});
+  }
 });
 
 router.get('/china', authenticationEnsurer, (req, res, next) => {
-  db.dish.findAll({
+  const maindish = selectDish(req, '中華', '主菜');
+  const subdish = selectDish(req, '中華', '副菜');
+  const soup = selectDish(req, '中華', '汁物');
+      
+  if (maindish === undefined || subdish === undefined || soup === undefined){
+    req.flash('error', '料理をもっと作ってください！！');
+    res.redirect('/selectGenre');
+  } else {
+  res.render('result', {
+    user: req.user,
+    maindish: maindish,
+    subdish: subdish,
+    soup: soup
+    });
+  }
+});
+
+async function selectDish(req, genre, role) {
+  await db.dish.findAll({
     where: {
-      dishGenre: '中華',
+      dishGenre: genre,
       createdBy: req.user.id,
-      dishRole: '主菜'
+      dishRole: role
     }
   }).then((dish) => {
     const dishArray = [];
     dish.forEach((dish) => {
       dishArray.push(dish);
     });
-    //中華||主菜をmaindishに入れる
-    const maindish = dishArray[Math.floor(Math.random()*dishArray.length)];
-    
+  });
+  return romdomDish(dishArray);
+}
 
-    db.dish.findAll({
-      where: {
-        dishGenre: '中華',
-        createdBy: req.user.id,
-        dishRole: '副菜'
-      }
-    }).then((dish) => {
-      const dishArray = [];
-      dish.forEach((dish) => {
-        dishArray.push(dish);
-      });
-      //中華||副菜をsubdishに入れる
-      const subdish = dishArray[Math.floor(Math.random()*dishArray.length)];
-
-      db.dish.findAll({
-        where: {
-          dishGenre: '中華',
-          createdBy: req.user.id,
-          dishRole: '汁物'
-        }
-      }).then((dish) => {
-        const dishArray = [];
-        dish.forEach((dish) => {
-          dishArray.push(dish);
-        });
-        //洋食||汁物をsoupに入れる
-        const soup = dishArray[Math.floor(Math.random()*dishArray.length)];
-        
-      if (maindish === undefined || subdish === undefined || soup === undefined){
-        req.flash('error', '料理をもっと作ってください！！');
-        res.redirect('/selectGenre');
-      } else {
-      res.render('result', {
-        user: req.user,
-        maindish: maindish,
-        subdish: subdish,
-        soup: soup
-      });
-    }
-    });
-  }); 
-});
-});
+function romdomDish(dishArray) {
+  return dishArray[Math.floor(Math.random()*dishArray.length)];
+}
 
 module.exports = router;
