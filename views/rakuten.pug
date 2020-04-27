@@ -1,5 +1,7 @@
 extends layout
 
 block content
+  div.my-3
   each category in categories
-    a(href=`/rakuten/${category.categoryId}`).btn #{category.categoryName}
+    div.list-group.list-group-flush.text-center.h5
+      a(href=`/rakuten/${category.categoryId}`).list-group-item.list-group-item-action.p-3 #{category.categoryName}
