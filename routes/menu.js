@@ -50,55 +50,6 @@ router.get("/new", authenticationEnsurer, csrfProtection, (req, res, next) => {
   });
 });
 
-//料理の登録処理
-router.post(
-  "/",
-  authenticationEnsurer,
-  upload.single("dishFile"),
-  (req, res, next) => {
-    const dishNameChech = req.body.dishName.length > 0;
-    const fileChech = req.file;
-    let dishId = uuid.v4();
-
-    if (!dishNameChech) {
-      req.flash("error", "料理名を入力してください！");
-      return res.redirect("/menu/new");
-    }
-
-    if (fileChech === undefined) {
-      db.dish
-        .create({
-          dishId: dishId,
-          dishName: req.body.dishName,
-          dishFile: null,
-          dishUrl: req.body.dishUrl || "(未設定)",
-          dishGenre: req.body.genre,
-          dishRole: req.body.role,
-          createdBy: req.user.id,
-          updatedAt
-        })
-        .then(() => {
-          res.redirect("/menu");
-        });
-    } else {
-      db.dish
-        .create({
-          dishId: dishId,
-          dishName: req.body.dishName,
-          dishFile: req.file.Location || null,
-          dishUrl: req.body.dishUrl || "(未設定)",
-          dishGenre: req.body.genre,
-          dishRole: req.body.role,
-          createdBy: req.user.id,
-          updatedAt
-        })
-        .then(() => {
-          res.redirect("/menu");
-        });
-    }
-  }
-);
-
 //料理の画像を表示
 router.get(
   "/:dishId/img/:dishFile",
@@ -156,6 +107,55 @@ router.get("/:dishId/edit/img", authenticationEnsurer, (req, res, next) => {
       });
     });
 });
+
+//料理の登録処理
+router.post(
+  "/",
+  authenticationEnsurer,
+  upload.single("dishFile"),
+  (req, res, next) => {
+    const dishNameChech = req.body.dishName.length > 0;
+    const fileChech = req.file;
+    let dishId = uuid.v4();
+
+    if (!dishNameChech) {
+      req.flash("error", "料理名を入力してください！");
+      return res.redirect("/menu/new");
+    }
+
+    if (fileChech === undefined) {
+      db.dish
+        .create({
+          dishId: dishId,
+          dishName: req.body.dishName,
+          dishFile: null,
+          dishUrl: req.body.dishUrl || "(未設定)",
+          dishGenre: req.body.genre,
+          dishRole: req.body.role,
+          createdBy: req.user.id,
+          updatedAt
+        })
+        .then(() => {
+          res.redirect("/menu");
+        });
+    } else {
+      db.dish
+        .create({
+          dishId: dishId,
+          dishName: req.body.dishName,
+          dishFile: req.file.Location || null,
+          dishUrl: req.body.dishUrl || "(未設定)",
+          dishGenre: req.body.genre,
+          dishRole: req.body.role,
+          createdBy: req.user.id,
+          updatedAt
+        })
+        .then(() => {
+          res.redirect("/menu");
+        });
+    }
+  }
+);
 
 //料理の編集処理
 router.post(
