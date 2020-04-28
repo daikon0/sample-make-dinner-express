@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  - var messages = getMessages()
+  if messages.error
+    div.alert.alert-danger
+      each msg in messages.error
+        .error= msg
+  div.my-3
+    form(method="post", action="/rakuten/recipe/new")
+      input(type="hidden" name="_csrf" value!=csrfToken)
+      div.form-group.my-3
+        label 料理名
+        input(type="text" name="dishName" value=`${dishName}`).form-control
+      div.form-group.my-3
+        label 参考URL
+        input(type="url" name="dishUrl" value=`${dishUrl}`).form-control
+      input(type="hidden" name="dishFile" value=`${dishFile}`)
+      div.form-group.row
+        div(data-toggle="buttons").btn-group.btn-group-toggle.col
+          label(style={width:"33%"}).active.btn.btn-outline-secondary
+            input(type="radio" name="genre" value="和食" autocomplete="off" checked)
+            | 和食
+          label(style={width:"33%"}).btn.btn-outline-secondary
+            input(type="radio" name="genre" autocomplete="off" value="中華")
+            | 中華
+          label(style={width:"33%"}).btn.btn-outline-secondary
+            input(type="radio" name="genre" autocomplete="off" value="洋食")
+            | 洋食
+      div.form-group.row
+        div(data-toggle="buttons").btn-group.btn-group-toggle.col
+          label(style={width:"33%"}).active.btn.btn-outline-secondary
+            input(type="radio" name="role" value="主菜" autocomplete="off" checked)
+            | 主菜
+          label(style={width:"33%"}).btn.btn-outline-secondary
+            input(type="radio" name="role" value="副菜" autocomplete="off")
+            | 副菜
+          label(style={width:"33%"}).btn.btn-outline-secondary
+            input(type="radio" name="role" value="汁物" autocomplete="off")
+            | 汁物
+      button(type="submit").btn.btn-info 料理を追加する

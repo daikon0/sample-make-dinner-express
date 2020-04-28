@@ -6,4 +6,4 @@ block content
     div.list-group.list-group-flush
       div.list-group-item.list-group-item-action.text-truncate
         img(src=`${recipe.mediumImageUrl}`, alt="画像").p-3
-        a(href=`${recipe.recipeUrl}` target="_blank").list-group-item-action.h5.p-3 #{recipe.recipeTitle}
+        a(href=`/rakuten/${categoryId}/${recipe.recipeId}`).list-group-item-action.h5.p-3 #{recipe.recipeTitle}
