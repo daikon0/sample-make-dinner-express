@@ -28,7 +28,6 @@ router.post("/", (req, res, next) => {
     return res.redirect("/register");
   }
   let id = getSecureRandom();
-  console.log(id);
 
   db.user
     .create({
@@ -40,8 +39,6 @@ router.post("/", (req, res, next) => {
       res.redirect("/");
     })
     .catch(err => {
-      console.log(err);
-
       req.flash("error", "そのusernameはすでに使われています!");
       return res.redirect("/register");
     });
