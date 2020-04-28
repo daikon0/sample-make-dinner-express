@@ -76,6 +76,18 @@ router.get(
   }
 );
 
+router.get("/:dishId", authenticationEnsurer, async (req, res, next) => {
+  const dish = await db.dish.findOne({
+    where: {
+      dishId: req.params.dishId
+    }
+  });
+  res.render("dish", {
+    user: req.user,
+    dish: dish
+  });
+});
+
 //料理の編集画面を表示
 router.get("/:dishId/edit", authenticationEnsurer, (req, res, next) => {
   db.dish

@@ -1,0 +1,21 @@
+td
+  button(type="button", data-toggle="modal", data-target="#"+`${dish.dishId}`).btn.btn-light #{dish.dishName}
+  div.modal.fade(id=`${dish.dishId}` tabindex="-1", role="dialog", aria-labelledby="dishModalLabel")
+    div.modal-dialog(role="document")
+      div.modal-content
+        div.modal-header
+          h5.modal-title#dishModalLabel #{dish.dishName}
+          button(type="button", data-dismiss="modal", aria-label="閉じる").close
+            span(aria-hidden="true") &times;
+        div.modal-body
+          div.card.bg-light
+            img(src=`${dish.dishFile}`, alt="画像", height="350").card-img-top
+            div.card-body
+              p.card-text.text-right #{dish.formattedUpdatedAt}
+              a(href=`${dish.dishUrl}`).btn.btn-primary.stretched-link.btn-block #{dish.dishName}のレシピ
+        div.modal-footer
+          a(href=`/menu/${dish.dishId}/edit`).btn.btn-success.my-3 編集する
+          form(method="post", action=`/menu/${dish.dishId}?delete=1`)
+            input(type="hidden" name="_csrf" value!=csrfToken)
+            button(type="submit").btn.btn-danger.my-3 削除する
+          button(type="button", data-dismiss="modal").btn.btn-secondary 閉じる
