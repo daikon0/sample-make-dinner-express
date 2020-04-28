@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  div.my-3
+  div(style={width:"80%"}).card.mx-auto.text-center
+    h5.card-header #{dish.dishName}
+    div.card-body
+      img(src=`${dish.dishFile}`, alt="画像", style={width:"80%"}).card-img
+    div.card-footer
+      a(href=`${dish.dishUrl}`, target="_blank").btn.btn-primary.btn-block.btn-lg レシピを見る
+      div.text-right
+        div.btn-group
+          a(href=`/menu/${dish.dishId}/edit`).btn.btn-success.my-3 編集する
+        div.btn-group.btn-lg
+          form(method="post", action=`/menu/${dish.dishId}?delete=1`)
+            input(type="hidden" name="_csrf" value!=csrfToken)
+            button(type="submit").btn.btn-danger.my-3 削除する
