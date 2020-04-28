@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  div.my-3
+  each item in recipe
+    div(style={width:"80%"}).card.mx-auto.text-center
+      h5.card-header #{item.recipeTitle}
+      div.card-body
+        img(src=`${item.foodImageUrl}`, alt="画像", style={width:"80%"}).card-img
+        div
+          div.bg-light
+            h6.p-3 材料
+          div
+            p.my-2 #{item.recipeMaterial}
+      div.card-footer
+        p.lead #{item.recipeDescription}
+        a(href=`${item.recipeUrl}`, target="_blank").btn.btn-primary.btn-block.btn-lg レシピを見る
+        form(method="post", action="/rakuten/recipe")
+          input(type="hidden" name="_csrf" value!=csrfToken)
+          input(type="hidden" name="dishName" value=`${item.recipeTitle}`)
+          input(type="hidden" name="dishUrl" value=`${item.recipeUrl}`)
+          input(type="hidden" name="dishFile" value=`${item.foodImageUrl}`)
+          button(type="submit").btn.btn-info.btn-block.btn-lg.my-3 料理を登録する
