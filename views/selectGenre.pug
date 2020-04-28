@@ -6,10 +6,10 @@ block content
       div.alert.alert-danger
         each msg in messages.error
           .error= msg
-  h4.my-3 ジャンルを選択してください!!
-  div.my-3
+  h4.my-3.p-4.lead 今晩の食事のジャンルは何にしますか？
+  div.my-4.p-4
     a(href="/selectGenre/japan").btn.btn-block.btn-outline-info.btn-lg 和食
-  div.my-3
+  div.my-4.p-4
     a(href="/selectGenre/western").btn.btn-block.btn-outline-success.btn-lg 洋食
-  div.my-3
+  div.my-4.p-4
     a(href="/selectGenre/china").btn.btn-block.btn-outline-danger.btn-lg 中華

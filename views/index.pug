@@ -2,18 +2,24 @@ extends layout
 
 block content
   div.jumbotron.my-3
-    if user
-      h1.display-5 MakeDinner!!
-      div
-        a(href="/menu").btn.btn-info.my-3 料理の一覧
-      div
-        a(href="/rakuten").btn.btn-info.my-3 料理を探す
-      div
-        a(href="/selectGenre").btn.btn-info.my-3 今日の献立を決める
-    else
-      h1.display-4 MakeDinner!!
-      p.lead このアプリケーションは<br>毎日の夕飯を一緒に考えてくれます
-      div
-      a(href="/login").btn.btn-info.my-3 ログイン
-      div
-      a(href="/register").btn.btn-info.my-3 新規登録
+    div.container-fluid
+      div.row
+        div.col-xs-12.col-md-6
+          h1.display-4 MakeDinner
+          p.lead.my-3.p-3 毎日の夕飯を考えるのは<br>大変じゃないですか？
+          p.lead.my-3.p-3 毎週同じようなメニューを<br>作っていませんか？
+          p.lead.my-3.p-3 このアプリケーションは<br>毎日の夕飯を考える手助けをしてくれます
+        if user
+          div.col-xs-12.col-md-6.mx-auto.text-center
+            div
+              a(href="/menu").btn.btn-info.my-5.btn-block あなたの料理の一覧
+            div
+              a(href="/rakuten").btn.btn-info.my-5.btn-block 楽天レシピで料理を探す
+            div
+              a(href="/selectGenre").btn.btn-info.my-5.btn-block 今日の献立を決める
+        else
+          div.col-xs-12.col-md-6.mx-auto.text-center
+            div
+              a(href="/login").btn.btn-info.my-5.btn-block ログイン
+            div
+              a(href="/register").btn.btn-info.my-5.btn-block 新規登録
