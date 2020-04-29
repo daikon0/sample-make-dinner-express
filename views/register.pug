@@ -6,12 +6,16 @@ block content
       div.alert.alert-danger
         each msg in messages.error
           .error= msg
-  div.form-group
-  form(action="/register", method="post")
-    div.form-group
-      label(for="username") ユーザー名
-      input(type="text", name="username").form-control
-    div.form-group
-      label(for="password") パスワード
-      input(type="text", name="password").form-control
-    button(type="submit").btn.btn-info 登録
+  div.container-fluid
+    div.row
+      div.card.my-5.bg-light.col-xs-12.col-md-5.mx-auto
+        div.form-group
+        form(action="/register", method="post")
+          div.form-group.card-body.p-3
+            label(for="username").fas.fa-user
+            input(type="text", name="username", placeholder="username").form-control
+          div.form-group.card-body.p-3
+            label(for="password").fas.fa-unlock
+            input(type="text", name="password", placeholder="password").form-control
+          div.card-footer.mt-5.mb-3
+            button(type="submit").btn.btn-info.btn-block 登録する
