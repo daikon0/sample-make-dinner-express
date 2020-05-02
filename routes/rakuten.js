@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 const router = express.Router();
-const authenticationEnsurer = require("./authenticatioon-exsurer");
+const authenticationEnsurer = require("./authentication-ensurer");
 const axios = require("axios");
 const uuid = require("uuid");
 const db = require("../models/index");

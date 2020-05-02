@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 const router = express.Router();
-const authenticationEnsurer = require("./authenticatioon-exsurer");
+const authenticationEnsurer = require("./authentication-ensurer");
 const flash = require("express-flash-messages");
 const db = require("../models/index");
 
