@@ -20,7 +20,7 @@
     "debug": "^2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.0",
-    "express-fileupload": "^1.1.6",
+    "express-fileupload": "^1.1.9",
     "express-flash-messages": "^0.1.1",
     "express-session": "^1.17.0",
     "fs": "^0.0.1-security",
