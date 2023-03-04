@@ -48,7 +48,7 @@
     "@babel/preset-env": "7.1.6",
     "babel-loader": "8.0.4",
     "eslint-config-prettier": "^6.11.0",
-    "mocha": "4.0.1",
+    "mocha": "10.2.0",
     "mocha-junit-reporter": "1.13.0",
     "passport-stub": "1.1.1",
     "sequelize-cli": "^5.5.1",
